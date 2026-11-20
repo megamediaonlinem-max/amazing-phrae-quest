@@ -3,13 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>๓๖๕ วัน มหัศจรรย์เมืองแพร่ | กิจกรรมร่วมสนุกรับของที่ระลึก</title>
-  <!-- Tailwind CSS -->
+  <title>๓๖๕ วัน มหัศจรรย์เมืองแพร่ | กิจกรรมร่วมสนุก & E-Book</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Prompt -->
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- QRCode Generator -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     body { font-family: 'Prompt', sans-serif; background-color: #faf5ff; }
     .tab-active { background-color: #6b21a8; color: white; border-color: #6b21a8; }
@@ -19,6 +15,8 @@
       70% { transform: translate(-50%, -50%) scale(1.08); box-shadow: 0 0 0 12px rgba(250, 204, 21, 0); }
       100% { transform: translate(-50%, -50%) scale(0.95); box-shadow: 0 0 0 0 rgba(250, 204, 21, 0); }
     }
+    .live-dot { animation: blink 1.5s infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
   </style>
 </head>
 <body class="text-slate-800 antialiased pb-20">
@@ -31,8 +29,9 @@
         <p class="text-[11px] text-purple-100">Amazing PHRAE • PHRAE Gastronomy Tourism</p>
       </div>
       <div class="text-right flex items-center gap-2">
-        <div class="bg-black/30 backdrop-blur px-2.5 py-1 rounded-lg text-xs border border-amber-400/40">
-          คูปองคงเหลือ: <span id="ui-remaining-coupons" class="font-bold text-amber-300">-</span>
+        <div class="bg-black/30 backdrop-blur px-2.5 py-1 rounded-lg text-xs border border-amber-400/40 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 live-dot" title="อัปเดต Real-time"></span>
+          <span>ผู้ร่วมกิจกรรม: <span id="ui-total-participants" class="font-bold text-amber-300">-</span> คน</span>
         </div>
         <button type="button" onclick="openAdminModal()" title="ระบบหลังบ้าน (เจ้าหน้าที่)" class="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs">
           ⚙️
@@ -57,7 +56,7 @@
   <!-- Main Container -->
   <main class="max-w-xl mx-auto px-4 pt-4">
 
-    <!-- Navigation Tabs (5 หน้า) -->
+    <!-- Navigation Tabs -->
     <nav class="grid grid-cols-5 gap-1.5 mb-5 text-center text-[11px] font-medium">
       <button type="button" onclick="switchTab(1)" id="tab-btn-1" class="tab-btn py-2 px-1 rounded-xl border bg-white shadow-sm flex flex-col items-center gap-1 transition">
         <span id="status-icon-1">1️⃣</span>
@@ -76,14 +75,12 @@
         <span>แชร์ภาพ</span>
       </button>
       <button type="button" onclick="switchTab(5)" id="tab-btn-5" class="tab-btn py-2 px-1 rounded-xl border bg-white shadow-sm flex flex-col items-center gap-1 transition">
-        <span id="status-icon-5">🎁</span>
-        <span>รับรางวัล</span>
+        <span id="status-icon-5">📘</span>
+        <span>E-Book</span>
       </button>
     </nav>
 
-    <!-- ========================================== -->
-    <!-- PAGE 1: หน้าลงทะเบียน -->
-    <!-- ========================================== -->
+    <!-- PAGE 1: ลงทะเบียน -->
     <section id="page-1" class="page-section bg-white rounded-2xl shadow-sm border border-purple-100 p-5">
       <div class="mb-4">
         <span class="inline-block px-2.5 py-0.5 bg-purple-100 text-purple-800 text-xs font-semibold rounded-full mb-1">ภารกิจที่ 1 (โซนที่ 1 : จุดต้อนรับ)</span>
@@ -122,7 +119,7 @@
 
         <label class="flex items-start gap-2.5 text-xs text-slate-600 cursor-pointer pt-1">
           <input type="checkbox" id="reg-pdpa" required class="mt-0.5 rounded text-purple-700 focus:ring-purple-500" />
-          <span>ยินยอมให้ผู้จัดงานเก็บข้อมูลส่วนบุคคลเพื่อใช้ในการร่วมกิจกรรม ยืนยันสิทธิ์รับรางวัล และจัดส่งข้อมูลข่าวสารตามนโยบาย PDPA</span>
+          <span>ยินยอมให้ผู้จัดงานเก็บข้อมูลส่วนบุคคลเพื่อใช้ในการร่วมกิจกรรม และจัดส่งข้อมูลข่าวสารตามนโยบาย PDPA</span>
         </label>
 
         <button type="submit" id="btn-register-submit"
@@ -131,7 +128,6 @@
         </button>
       </form>
 
-      <!-- Registered Summary Card -->
       <div id="registered-summary" class="hidden mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
         <div class="flex items-center gap-2 text-emerald-700 font-semibold mb-1">
           <span>✅ ลงทะเบียนเรียบร้อยแล้ว</span>
@@ -145,9 +141,7 @@
       </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- PAGE 2: แผนที่สำหรับสำรวจและเดินทาง (ภาพแผนผัง + ปักหมุด) -->
-    <!-- ========================================== -->
+    <!-- PAGE 2: แผนที่ -->
     <section id="page-2" class="page-section hidden bg-white rounded-2xl shadow-sm border border-purple-100 p-5">
       <div class="mb-3 flex justify-between items-start gap-2">
         <div>
@@ -158,7 +152,6 @@
         <span id="ui-map-count" class="px-2.5 py-1 bg-purple-100 text-purple-800 rounded-lg text-xs font-semibold shrink-0">0/2 โซน</span>
       </div>
 
-      <!-- Interactive Image Floor Plan Map -->
       <div class="relative w-full rounded-xl border-2 border-purple-300 overflow-hidden mb-3 select-none bg-slate-900 shadow-inner">
         <img
           id="event-map-img"
@@ -167,35 +160,25 @@
           class="w-full h-auto block"
           onerror="handleMapImageError(this)"
         />
-
-        <!-- Fallback notice if image file is missing -->
         <div id="map-img-error" class="hidden p-8 text-center text-white text-xs bg-slate-800 leading-relaxed">
           ⚠️ ยังไม่พบไฟล์ภาพแผนผัง <code>map-phrae.jpg</code><br>
-          กรุณาอัปโหลดรูปภาพแผนผังงานไว้ในโฟลเดอร์เดียวกับ <code>index.html</code><br>
-          และตั้งชื่อไฟล์ว่า <strong>map-phrae.jpg</strong> (หรือ <strong>map-phrae.png</strong>)
+          กรุณาอัปโหลดรูปภาพแผนผังงานไว้ในโฟลเดอร์เดียวกับ <code>index.html</code>
         </div>
-
-        <!-- Clickable Pins Overlay (ปักหมุดทั้ง 5 โซน) -->
         <div id="map-pins-container" class="absolute inset-0"></div>
-
-        <!-- Zoom Fullscreen Button -->
         <button type="button" onclick="openMapZoom()" class="absolute bottom-2 right-2 bg-black/75 hover:bg-black text-white text-[11px] px-2.5 py-1 rounded-lg backdrop-blur flex items-center gap-1 shadow border border-white/20">
           🔍 ขยายภาพเต็มจอ
         </button>
       </div>
 
-      <!-- Selected Zone Detail Card -->
       <div id="zone-detail-card" class="p-4 bg-purple-50/70 border border-purple-200 rounded-xl">
-        <p class="text-sm text-purple-900 text-center">👆 แตะที่หมุดหมายเลข <strong>1 - 5</strong> บนแผนผัง (หรือกดจากรายการด้านล่าง) เพื่อดูรายละเอียดโซน วิธีเดินทาง และกดเช็กอิน</p>
+        <p class="text-sm text-purple-900 text-center">👆 แตะที่หมุดหมายเลข <strong>1 - 5</strong> บนแผนผัง (หรือกดจากรายการด้านล่าง) เพื่อดูรายละเอียดโซนและกดเช็กอิน</p>
       </div>
 
-      <!-- Quick Zone List -->
       <div class="mt-4">
         <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">รายละเอียดพื้นที่ทั้ง 5 โซน (Key Plan)</h3>
         <div id="zone-quick-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
       </div>
 
-      <!-- Venue Summary -->
       <div class="mt-4 p-3 bg-slate-50 rounded-xl border text-[11px] text-slate-600 grid grid-cols-2 gap-2">
         <div>📍 <strong>สถานที่:</strong> สวนสุขภาพเฉลิมพระเกียรติฯ จ.แพร่</div>
         <div>📐 <strong>พื้นที่:</strong> ≈ 12,000 ตร.ม. (หลายร้อยบูธ)</div>
@@ -204,9 +187,7 @@
       </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- PAGE 3: Quiz ตอบคำถาม -->
-    <!-- ========================================== -->
+    <!-- PAGE 3: Quiz -->
     <section id="page-3" class="page-section hidden bg-white rounded-2xl shadow-sm border border-purple-100 p-5">
       <div class="mb-4">
         <span class="inline-block px-2.5 py-0.5 bg-purple-100 text-purple-800 text-xs font-semibold rounded-full mb-1">ภารกิจที่ 3</span>
@@ -216,7 +197,6 @@
 
       <form id="quiz-form" onsubmit="handleQuizSubmit(event)" class="space-y-5">
         <div id="quiz-questions-container" class="space-y-4"></div>
-
         <button type="submit" id="btn-quiz-submit"
           class="w-full bg-purple-700 hover:bg-purple-800 text-white font-semibold py-3 rounded-xl shadow transition">
           ส่งคำตอบ Quiz
@@ -226,9 +206,7 @@
       <div id="quiz-result-box" class="hidden mt-4 p-4 rounded-xl border"></div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- PAGE 4: ใส่ลิงก์โพสต์ภาพลงโซเชียล -->
-    <!-- ========================================== -->
+    <!-- PAGE 4: แชร์ภาพลงโซเชียล -->
     <section id="page-4" class="page-section hidden bg-white rounded-2xl shadow-sm border border-purple-100 p-5">
       <div class="mb-4">
         <span class="inline-block px-2.5 py-0.5 bg-purple-100 text-purple-800 text-xs font-semibold rounded-full mb-1">ภารกิจที่ 4</span>
@@ -236,7 +214,6 @@
         <p class="text-sm text-slate-500">โพสต์ภาพอาหารหรือบรรยากาศภายในงานแบบสาธารณะ พร้อมติดแฮชแท็ก แล้วนำลิงก์มาวางด้านล่าง</p>
       </div>
 
-      <!-- Hashtag Copy Box -->
       <div class="bg-purple-50 border border-purple-200 rounded-xl p-3.5 mb-4">
         <div class="text-xs text-purple-800 font-medium mb-1">แฮชแท็กบังคับ (แตะเพื่อคัดลอก):</div>
         <div class="flex items-center justify-between gap-2 bg-white px-3 py-2 rounded-lg border border-purple-100">
@@ -271,7 +248,7 @@
           <span>ยืนยันว่าได้ติดแฮชแท็กครบถ้วนในแคปชั่นของโพสต์แล้ว</span>
         </label>
 
-        <button type="submit" class="w-full bg-purple-700 hover:bg-purple-800 text-white font-semibold py-3 rounded-xl shadow transition">
+        <button type="submit" id="btn-social-submit" class="w-full bg-purple-700 hover:bg-purple-800 text-white font-semibold py-3 rounded-xl shadow transition">
           ส่งลิงก์ยืนยันภารกิจ
         </button>
       </form>
@@ -282,69 +259,54 @@
       </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- PAGE 5: หน้ารับรหัสคูปอง & ดาวน์โหลด E-Book -->
-    <!-- ========================================== -->
+    <!-- PAGE 5: ขอบคุณที่ร่วมสนุก & ดาวน์โหลด E-Book -->
     <section id="page-5" class="page-section hidden bg-white rounded-2xl shadow-sm border border-purple-100 p-5">
       <!-- Locked State -->
       <div id="reward-locked" class="text-center py-8">
         <div class="text-5xl mb-3">🔒</div>
-        <h2 class="text-xl font-bold text-slate-800 mb-2">ยังปลดล็อกรางวัลไม่ได้</h2>
-        <p class="text-sm text-slate-500 mb-5">กรุณาทำภารกิจทั้ง 4 ขั้นตอนให้ครบถ้วน เพื่อรับรหัสแลกของที่ระลึกและดาวน์โหลด E-Book</p>
+        <h2 class="text-xl font-bold text-slate-800 mb-2">ยังปลดล็อก E-Book ไม่ได้</h2>
+        <p class="text-sm text-slate-500 mb-5">กรุณาทำภารกิจทั้ง 4 ขั้นตอนให้ครบถ้วน เพื่อเข้าสู่หน้าขอบคุณและดาวน์โหลด E-Book</p>
         <div id="missing-missions-list" class="text-left max-w-xs mx-auto space-y-2 text-sm mb-5"></div>
         <button type="button" onclick="goToNextIncompleteMission()" class="bg-purple-700 text-white px-6 py-2.5 rounded-xl font-medium text-sm shadow">
           ไปทำภารกิจถัดไป →
         </button>
       </div>
 
-      <!-- Unlocked State -->
-      <div id="reward-unlocked" class="hidden text-center">
+      <!-- Unlocked State (ขอบคุณ + ดาวน์โหลด E-Book) -->
+      <div id="reward-unlocked" class="hidden text-center py-4">
+        <div class="text-5xl mb-3">🎉</div>
         <div class="inline-block px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-full mb-2">
-          🎉 ยินดีด้วย! คุณทำภารกิจครบทั้งหมดแล้ว
+          ภารกิจสำเร็จครบทั้ง 4 ขั้นตอน
         </div>
-        <h2 class="text-2xl font-bold text-slate-800 mb-1">คูปองแลกของที่ระลึก</h2>
-        <p class="text-xs text-slate-500 mb-4">นำหน้าจอนี้ไปแสดงที่จุดต้อนรับและลงทะเบียน (โซนที่ 1)</p>
+        <h2 class="text-2xl font-bold text-purple-900 mb-2">ขอบคุณที่ร่วมสนุกกับกิจกรรม</h2>
+        <p class="text-sm text-slate-600 mb-6">
+          ขอขอบคุณคุณ <strong id="ui-reward-owner" class="text-purple-800"></strong><br>
+          ที่มาร่วมเป็นส่วนหนึ่งในงาน ๓๖๕ วัน มหัศจรรย์เมืองแพร่ (Amazing PHRAE)
+        </p>
 
-        <!-- Coupon Ticket Card -->
-        <div class="bg-gradient-to-br from-purple-50 to-amber-50 border-2 border-dashed border-purple-300 rounded-2xl p-5 mb-5 relative">
-          <div id="coupon-qr-container" class="flex justify-center mb-3 bg-white p-3 rounded-xl inline-block mx-auto shadow-sm"></div>
+        <!-- E-Book Download Box -->
+        <div class="bg-gradient-to-br from-purple-900 via-purple-800 to-fuchsia-900 text-white rounded-2xl p-6 shadow-lg border border-amber-400/30">
+          <span class="inline-block text-[11px] uppercase tracking-wider bg-amber-400 text-slate-900 font-bold px-3 py-0.5 rounded-full mb-2">
+            Exclusive E-Book
+          </span>
+          <h3 class="font-bold text-lg mb-1">E-Book เส้นทางอาหารเหนือเมืองแพร่</h3>
+          <p class="text-xs text-purple-200 mb-5">สามารถกดดาวน์โหลดเพื่อเก็บไว้อ่านได้ทันที</p>
 
-          <div class="text-xs text-slate-500 uppercase tracking-wider">รหัสคูปองของคุณ</div>
-          <div id="ui-coupon-code" class="text-2xl font-extrabold tracking-widest text-purple-800 my-1">---</div>
-
-          <div class="text-xs text-slate-600 mb-3">ผู้รับสิทธิ์: <span id="ui-coupon-owner" class="font-semibold"></span></div>
-
-          <div id="coupon-status-badge" class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700">
-            ● พร้อมใช้งาน (ยังไม่แลกรับ)
-          </div>
-
-          <!-- Staff Redeem Button -->
-          <div class="mt-4 pt-3 border-t border-purple-200/60">
-            <button type="button" id="btn-staff-redeem" onclick="staffRedeemCoupon()" class="text-xs text-purple-700 hover:underline font-medium">
-              [สำหรับเจ้าหน้าที่] กดเพื่อยืนยันการรับของที่ระลึกแล้ว
-            </button>
-          </div>
-        </div>
-
-        <!-- E-Book Download Card -->
-        <div class="bg-gradient-to-r from-purple-900 to-fuchsia-900 text-white rounded-2xl p-5 text-left flex items-center justify-between gap-4">
-          <div>
-            <span class="text-[10px] uppercase tracking-wider bg-amber-400 text-slate-900 font-bold px-2 py-0.5 rounded">Exclusive E-Book</span>
-            <h3 class="font-bold text-base mt-1">E-Book เส้นทางอาหารเหนือเมืองแพร่</h3>
-            <p class="text-xs text-purple-200 mt-0.5">ฉบับสมบูรณ์สำหรับผู้ร่วมงาน 365 วัน มหัศจรรย์เมืองแพร่</p>
-          </div>
-          <button type="button" onclick="downloadEbook()" class="shrink-0 bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold px-4 py-2.5 rounded-xl text-sm shadow transition">
-            📥 ดาวน์โหลด
+          <button type="button" onclick="downloadEbook()"
+            class="w-full bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold py-3.5 px-6 rounded-xl text-base shadow-md transition flex items-center justify-center gap-2">
+            <span>📥 ดาวน์โหลด E-Book</span>
           </button>
+
+          <p id="ui-ebook-downloaded-badge" class="hidden text-xs text-emerald-300 mt-3 font-medium">
+            ✓ บันทึกการดาวน์โหลด E-Book เรียบร้อยแล้ว
+          </p>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- ========================================== -->
-  <!-- MAP ZOOM LIGHTBOX MODAL -->
-  <!-- ========================================== -->
+  <!-- MAP ZOOM LIGHTBOX -->
   <div id="map-zoom-modal" onclick="closeMapZoom()" class="hidden fixed inset-0 bg-black/90 z-50 flex flex-col items-center justify-center p-2">
     <div class="w-full max-w-4xl flex justify-between items-center text-white text-xs px-2 pb-2">
       <span>แผนผังการจัดวางพื้นที่จัดงาน (แตะที่ใดก็ได้เพื่อปิด)</span>
@@ -353,17 +315,18 @@
     <img id="map-zoom-img" src="./map-phrae.jpg" alt="แผนผังขยายเต็มจอ" class="max-w-full max-h-[85vh] object-contain rounded-lg" />
   </div>
 
-  <!-- ========================================== -->
-  <!-- ADMIN MODAL (ดูสถิติ, จำนวน, ข้อมูล, Export) -->
-  <!-- ========================================== -->
+  <!-- ADMIN MODAL (Real-time จาก Google Sheets) -->
   <div id="admin-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
       <div class="px-5 py-4 border-b flex items-center justify-between bg-purple-50">
-        <h3 class="font-bold text-lg text-purple-900">📊 ระบบหลังบ้าน & สถิติกิจกรรม</h3>
+        <div class="flex items-center gap-2">
+          <h3 class="font-bold text-lg text-purple-900">📊 ระบบหลังบ้าน (Real-time)</h3>
+          <span id="adm-sync-status" class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-medium">กำลังเชื่อมต่อ...</span>
+        </div>
         <button type="button" onclick="closeAdminModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
       </div>
 
-      <div class="p-5 overflow-y-auto space-y-5">
+      <div class="p-5 overflow-y-auto space-y-4">
         <!-- KPI Cards -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div class="p-3 bg-purple-50 rounded-xl border border-purple-100">
@@ -375,26 +338,25 @@
             <div id="adm-total-quiz" class="text-2xl font-bold text-sky-900">0</div>
           </div>
           <div class="p-3 bg-amber-50 rounded-xl border border-amber-100">
-            <div class="text-xs text-amber-600">ออกคูปองแล้ว</div>
-            <div id="adm-total-coupon" class="text-2xl font-bold text-amber-900">0</div>
+            <div class="text-xs text-amber-600">ทำครบทุกภารกิจ</div>
+            <div id="adm-total-complete" class="text-2xl font-bold text-amber-900">0</div>
           </div>
           <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-100">
-            <div class="text-xs text-emerald-600">รับของแล้ว / E-Book</div>
-            <div class="text-lg font-bold text-emerald-900"><span id="adm-total-redeemed">0</span> / <span id="adm-total-ebook">0</span></div>
+            <div class="text-xs text-emerald-600">โหลด E-Book แล้ว</div>
+            <div id="adm-total-ebook" class="text-2xl font-bold text-emerald-900">0</div>
           </div>
         </div>
 
-        <!-- Actions -->
+        <!-- Search & Actions -->
         <div class="flex flex-wrap gap-2 justify-between items-center">
-          <div class="text-xs text-slate-500">
-            โหมดจัดเก็บ: <span id="adm-storage-mode" class="font-semibold text-purple-700">LocalStorage (เครื่องนี้)</span>
-          </div>
+          <input type="text" id="adm-search" oninput="renderAdminTable()" placeholder="🔍 ค้นหาชื่อ, เบอร์โทร, อีเมล..."
+            class="px-3 py-1.5 border rounded-lg text-xs w-full sm:w-60 focus:ring-2 focus:ring-purple-500 focus:outline-none" />
           <div class="flex gap-2">
-            <button type="button" onclick="exportCSV()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg">
-              ⬇️ Export ข้อมูล (CSV)
+            <button type="button" onclick="fetchAdminLiveData()" class="px-3 py-1.5 bg-purple-700 hover:bg-purple-800 text-white text-xs font-semibold rounded-lg">
+              🔄 รีเฟรชทันที
             </button>
-            <button type="button" onclick="clearAllDemoData()" class="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold rounded-lg border border-red-200">
-              ล้างข้อมูลทดสอบ
+            <button type="button" onclick="exportCSV()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg">
+              ⬇️ Export CSV
             </button>
           </div>
         </div>
@@ -407,8 +369,8 @@
                 <th class="p-2.5">ชื่อ - เบอร์โทร</th>
                 <th class="p-2.5">แผนที่/Quiz/แชร์</th>
                 <th class="p-2.5">ลิงก์โซเชียล</th>
-                <th class="p-2.5">รหัสคูปอง</th>
-                <th class="p-2.5">สถานะรับของ</th>
+                <th class="p-2.5">สถานะภารกิจ</th>
+                <th class="p-2.5">E-Book</th>
               </tr>
             </thead>
             <tbody id="adm-table-body" class="divide-y"></tbody>
@@ -418,73 +380,60 @@
     </div>
   </div>
 
-  <!-- ========================================== -->
   <!-- JAVASCRIPT LOGIC -->
-  <!-- ========================================== -->
   <script>
     const CONFIG = {
       eventName: "๓๖๕ วัน มหัศจรรย์เมืองแพร่",
       hashtags: "#AmazingPhrae #365วันมหัศจรรย์เมืองแพร่ #PhraeGastronomy",
-      totalCouponQuota: 500,
       minMapZonesToPass: 2,
       minQuizScoreToPass: 2,
       staffPin: "1234",
-      ebookUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      ebookUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf", // เปลี่ยนเป็นลิงก์ E-Book PDF ของคุณ
       googleScriptUrl: "https://script.google.com/macros/s/AKfycbx1FnfK_DVkPxPs3AGzcSLLvZvdr1MxHcXeK4edzagSuOBVlG9QutfVTOCI2l0l3rfO/exec"
     };
 
     const MAP_ZONES = [
       {
-        id: "zone1",
-        num: "1",
+        id: "zone1", num: "1",
         name: "โซนที่ 1 : จุดต้อนรับและลงทะเบียน",
         enName: "Welcome & Digital Check-In",
-        x: 53, y: 73.5,
-        color: "bg-purple-700",
-        desc: "จุดต้อนรับผู้เข้าร่วมงาน สแกน QR Code ลงทะเบียนรับสิทธิ์ร่วมกิจกรรม และจุดแลกรับของที่ระลึก",
+        x: 53, y: 73.5, color: "bg-purple-700",
+        desc: "จุดต้อนรับผู้เข้าร่วมงาน สแกน QR Code ลงทะเบียนร่วมกิจกรรม และจุดประชาสัมพันธ์ข้อมูลภายในงาน",
         direction: "อยู่บริเวณด้านในซุ้มประตูทางเข้าหลัก (Entrance) ด้านหน้าสุดของงาน",
         clue: "คำใบ้ Quiz: งานนี้จัดขึ้นที่ สวนสุขภาพเฉลิมพระเกียรติรัชกาลที่ ๙ จังหวัดแพร่"
       },
       {
-        id: "zone2",
-        num: "2",
+        id: "zone2", num: "2",
         name: "โซนที่ 2 : เวทีกลางและสาธิตทำอาหาร",
         enName: "Main Stage & Cooking Demo",
-        x: 73, y: 39,
-        color: "bg-fuchsia-700",
+        x: 73, y: 39, color: "bg-fuchsia-700",
         desc: "พื้นที่เวทีหลัก การแสดงศิลปวัฒนธรรม และกิจกรรมสาธิตการปรุงอาหารพื้นถิ่นเมืองแพร่โดยเชฟรับเชิญ",
         direction: "เดินตรงจากทางเข้าหลักผ่านลานที่นั่งชมการแสดงไปยังฝั่งขวาด้านในสุด",
         clue: "คำใบ้ Quiz: โซนที่ 2 คือพื้นที่เวทีกลางและสาธิตการทำอาหาร"
       },
       {
-        id: "zone3",
-        num: "3",
+        id: "zone3", num: "3",
         name: "โซนที่ 3 : นิทรรศการเส้นทางอาหารเหนือ",
         enName: "Northern Gastronomy Exhibition",
-        x: 43.5, y: 54.5,
-        color: "bg-amber-600",
+        x: 43.5, y: 54.5, color: "bg-amber-600",
         desc: "นิทรรศการถ่ายทอดเรื่องราววัตถุดิบพื้นถิ่น ภูมิปัญญาอาหารเหนือ และเส้นทางท่องเที่ยวเชิงอาหารจังหวัดแพร่",
         direction: "ตั้งอยู่บริเวณใจกลางพื้นที่จัดงาน ถัดจากจุดต้อนรับและซุ้มประตูทางเข้า",
         clue: "คำใบ้ Quiz: หากต้องการชมนิทรรศการเส้นทางอาหารเหนือ ให้เดินไปที่โซนที่ 3"
       },
       {
-        id: "zone4",
-        num: "4",
+        id: "zone4", num: "4",
         name: "โซนที่ 4 : ตลาดอาหารพื้นถิ่นและของดีจังหวัดแพร่",
         enName: "Local Gastronomy & OTOP Market",
-        x: 34, y: 40,
-        color: "bg-rose-600",
+        x: 34, y: 40, color: "bg-rose-600",
         desc: "รวมร้านอาหารพื้นถิ่นขึ้นชื่อ ขนมโบราณ เครื่องดื่ม และสินค้า OTOP ของดีจังหวัดแพร่หลากหลายร้อยบูธ",
         direction: "เดินเลียบแนวทางเดินหลักฝั่งซ้ายมือ สามารถเดินวนเชื่อมต่อกับทางออก (Exit) ได้สะดวก",
         clue: "คำใบ้ Quiz: โซนที่ 4 คือตลาดอาหารพื้นถิ่นและของดีจังหวัดแพร่"
       },
       {
-        id: "zone5",
-        num: "5",
+        id: "zone5", num: "5",
         name: "โซนที่ 5 : พื้นที่เตรียมอาหารและสนับสนุน",
         enName: "Back-of-House & Prep Kitchen",
-        x: 76, y: 18.5,
-        color: "bg-slate-700",
+        x: 76, y: 18.5, color: "bg-slate-700",
         desc: "พื้นที่เตรียม-จัดชุดชิม (จำนวน 30 ชุด) พื้นที่พักเชฟ/VIP และห้องควบคุมระบบเวทีและการปฏิบัติการ",
         direction: "อยู่ด้านหลังเวทีกลาง (พื้นที่เฉพาะเจ้าหน้าที่และทีมงานสนับสนุน)",
         clue: "คำใบ้ Quiz: พื้นที่เตรียม-จัดชุดชิมในโซนที่ 5 รองรับการจัดเตรียมจำนวน 30 ชุด"
@@ -505,21 +454,13 @@
       {
         id: "q2",
         question: "2. โซนใดในงานที่เป็น 'ตลาดอาหารพื้นถิ่นและของดีจังหวัดแพร่'?",
-        options: [
-          "โซนที่ 2",
-          "โซนที่ 4",
-          "โซนที่ 5"
-        ],
+        options: ["โซนที่ 2", "โซนที่ 4", "โซนที่ 5"],
         answerIndex: 1
       },
       {
         id: "q3",
         question: "3. หากต้องการชม 'นิทรรศการเส้นทางอาหารเหนือ' ต้องเดินไปที่โซนใด?",
-        options: [
-          "โซนที่ 1",
-          "โซนที่ 3",
-          "โซนที่ 5"
-        ],
+        options: ["โซนที่ 1", "โซนที่ 3", "โซนที่ 5"],
         answerIndex: 1
       }
     ];
@@ -529,7 +470,8 @@
 
     let currentUser = null;
     let activeZoneId = null;
-    let globalStats = { totalCouponsIssued: 0 };
+    let currentTab = 1;
+    let adminLiveList = [];
 
     function handleMapImageError(img) {
       if (!img.dataset.triedPng) {
@@ -550,17 +492,18 @@
       localStorage.setItem(DB_KEY, JSON.stringify(list));
     }
 
-    async function persistUser(userObj) {
+    function saveLocalUser(userObj) {
       const db = getLocalDB();
       const idx = db.findIndex(u => u.phone === userObj.phone);
-      if (idx >= 0) {
-        db[idx] = userObj;
-      } else {
-        db.push(userObj);
-      }
+      if (idx >= 0) db[idx] = userObj;
+      else db.push(userObj);
       saveLocalDB(db);
       currentUser = userObj;
       localStorage.setItem(CURRENT_USER_KEY, userObj.phone);
+    }
+
+    async function persistUser(userObj) {
+      saveLocalUser(userObj);
 
       if (CONFIG.googleScriptUrl) {
         try {
@@ -573,36 +516,30 @@
           console.warn("Google Sheets Sync Warning:", err);
         }
       }
-      refreshUI();
+      refreshUI(true);
     }
 
     async function loadStatsFromServer() {
-      const db = getLocalDB();
-      let issuedCount = db.filter(u => u.couponCode).length;
-
-      if (CONFIG.googleScriptUrl) {
-        try {
-          const res = await fetch(`${CONFIG.googleScriptUrl}?action=stats`);
-          const json = await res.json();
-          if (typeof json.totalCouponsIssued === "number") {
-            issuedCount = json.totalCouponsIssued;
-          }
-        } catch (err) {
-          console.warn("Fetch stats failed, using local count", err);
-        }
+      if (!CONFIG.googleScriptUrl) {
+        document.getElementById("ui-total-participants").textContent = getLocalDB().length.toLocaleString();
+        return;
       }
-      globalStats.totalCouponsIssued = issuedCount;
-      const remaining = Math.max(0, CONFIG.totalCouponQuota - issuedCount);
-      document.getElementById("ui-remaining-coupons").textContent = remaining.toLocaleString();
+
+      try {
+        const res = await fetch(`${CONFIG.googleScriptUrl}?action=stats&t=${Date.now()}`);
+        const json = await res.json();
+        if (typeof json.totalParticipants === "number") {
+          document.getElementById("ui-total-participants").textContent = json.totalParticipants.toLocaleString();
+        }
+      } catch (err) {
+        console.warn("Real-time poll error:", err);
+      }
     }
 
     window.addEventListener("DOMContentLoaded", () => {
       document.getElementById("ui-event-name").textContent = CONFIG.eventName;
       document.getElementById("ui-hashtags").textContent = CONFIG.hashtags;
       document.getElementById("ui-map-target").textContent = CONFIG.minMapZonesToPass;
-      if (CONFIG.googleScriptUrl) {
-        document.getElementById("adm-storage-mode").textContent = "Google Sheets + Local Cache";
-      }
 
       renderMapPins();
       renderQuizQuestions();
@@ -613,9 +550,21 @@
         currentUser = db.find(u => u.phone === savedPhone) || null;
       }
 
-      refreshUI();
+      refreshUI(true);
       switchTab(currentUser ? getNextMissionStep() : 1);
-      loadStatsFromServer();
+
+      setInterval(() => {
+        if (!document.hidden) {
+          loadStatsFromServer();
+          if (!document.getElementById("admin-modal").classList.contains("hidden")) {
+            fetchAdminLiveData(true);
+          }
+        }
+      }, 8000);
+
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) loadStatsFromServer();
+      });
     });
 
     function switchTab(step) {
@@ -623,6 +572,7 @@
         alert("กรุณาลงทะเบียนในขั้นตอนที่ 1 ก่อนทำภารกิจนี้ครับ");
         step = 1;
       }
+      currentTab = step;
 
       document.querySelectorAll(".page-section").forEach(el => el.classList.add("hidden"));
       document.getElementById(`page-${step}`).classList.remove("hidden");
@@ -653,7 +603,7 @@
       switchTab(getNextMissionStep());
     }
 
-    function refreshUI() {
+    function refreshUI(fetchServer = false) {
       let completed = 0;
       const icons = ["1️⃣", "🗺️", "❓", "📸"];
       for (let i = 1; i <= 4; i++) {
@@ -661,7 +611,7 @@
         if (done) completed++;
         document.getElementById(`status-icon-${i}`).textContent = done ? "✅" : icons[i - 1];
       }
-      document.getElementById("status-icon-5").textContent = completed === 4 ? "🎁" : "🔒";
+      document.getElementById("status-icon-5").textContent = completed === 4 ? "📘" : "🔒";
       document.getElementById("ui-progress-text").textContent = `${completed} / 4 สำเร็จ`;
       document.getElementById("ui-progress-bar").style.width = `${(completed / 4) * 100}%`;
 
@@ -695,18 +645,28 @@
         document.getElementById("social-platform").value = currentUser.socialPlatform || "Facebook";
       }
 
-      loadStatsFromServer();
+      if (fetchServer) loadStatsFromServer();
     }
 
     async function handleRegister(e) {
       e.preventDefault();
+      const btn = document.getElementById("btn-register-submit");
+      btn.disabled = true;
+      btn.textContent = "กำลังบันทึกข้อมูล...";
+
       const name = document.getElementById("reg-name").value.trim();
       const phone = document.getElementById("reg-phone").value.trim();
       const email = document.getElementById("reg-email").value.trim();
       const group = document.getElementById("reg-group").value;
 
-      const db = getLocalDB();
-      const existing = db.find(u => u.phone === phone);
+      let existing = getLocalDB().find(u => u.phone === phone);
+      if (!existing && CONFIG.googleScriptUrl) {
+        try {
+          const res = await fetch(`${CONFIG.googleScriptUrl}?action=user&phone=${encodeURIComponent(phone)}&t=${Date.now()}`);
+          const json = await res.json();
+          if (json.user) existing = json.user;
+        } catch (err) {}
+      }
 
       if (existing) {
         await persistUser(existing);
@@ -714,23 +674,19 @@
       } else {
         const newUser = {
           id: "PHR-" + Date.now().toString(36).toUpperCase(),
-          name,
-          phone,
-          email,
-          group,
+          name, phone, email, group,
           exploredZones: [],
-          quizPassed: false,
-          quizScore: 0,
-          socialPlatform: "",
-          socialUrl: "",
-          couponCode: "",
-          redeemed: false,
+          quizPassed: false, quizScore: 0,
+          socialPlatform: "", socialUrl: "",
           ebookDownloaded: false,
           createdAt: new Date().toISOString()
         };
         await persistUser(newUser);
       }
-      switchTab(2);
+
+      btn.disabled = false;
+      btn.textContent = "ลงทะเบียนและเริ่มสำรวจงาน →";
+      switchTab(getNextMissionStep());
     }
 
     function resetUserSession() {
@@ -742,7 +698,7 @@
         document.getElementById("quiz-result-box").classList.add("hidden");
         document.getElementById("social-form").reset();
         document.getElementById("social-success-box").classList.add("hidden");
-        refreshUI();
+        refreshUI(true);
         switchTab(1);
       }
     }
@@ -830,13 +786,8 @@
       selectMapZone(zoneId);
     }
 
-    function openMapZoom() {
-      document.getElementById("map-zoom-modal").classList.remove("hidden");
-    }
-
-    function closeMapZoom() {
-      document.getElementById("map-zoom-modal").classList.add("hidden");
-    }
+    function openMapZoom() { document.getElementById("map-zoom-modal").classList.remove("hidden"); }
+    function closeMapZoom() { document.getElementById("map-zoom-modal").classList.add("hidden"); }
 
     function renderQuizQuestions() {
       const container = document.getElementById("quiz-questions-container");
@@ -862,9 +813,7 @@
       let score = 0;
       QUIZ_QUESTIONS.forEach(q => {
         const selected = document.querySelector(`input[name="quiz_${q.id}"]:checked`);
-        if (selected && parseInt(selected.value, 10) === q.answerIndex) {
-          score++;
-        }
+        if (selected && parseInt(selected.value, 10) === q.answerIndex) score++;
       });
 
       const passed = score >= CONFIG.minQuizScoreToPass;
@@ -909,15 +858,20 @@
         return;
       }
 
+      const btn = document.getElementById("btn-social-submit");
+      btn.disabled = true;
+      btn.textContent = "กำลังส่งข้อมูล...";
+
       currentUser.socialPlatform = platform;
       currentUser.socialUrl = url;
       await persistUser(currentUser);
 
-      alert("บันทึกข้อมูลการแชร์เรียบร้อย! ไปรับรางวัลและ E-Book ในหน้าถัดไปได้เลยครับ");
+      btn.disabled = false;
+      btn.textContent = "ส่งลิงก์ยืนยันภารกิจ";
       switchTab(getNextMissionStep());
     }
 
-    async function renderRewardPage() {
+    function renderRewardPage() {
       const allDone = [1, 2, 3, 4].every(isMissionDone);
       const lockedEl = document.getElementById("reward-locked");
       const unlockedEl = document.getElementById("reward-unlocked");
@@ -925,7 +879,6 @@
       if (!allDone) {
         lockedEl.classList.remove("hidden");
         unlockedEl.classList.add("hidden");
-
         const names = [
           "1. ลงทะเบียนร่วมกิจกรรม",
           `2. สำรวจแผนผังงานอย่างน้อย ${CONFIG.minMapZonesToPass} โซน`,
@@ -939,126 +892,134 @@
         return;
       }
 
-      if (!currentUser.couponCode) {
-        const remaining = CONFIG.totalCouponQuota - globalStats.totalCouponsIssued;
-        if (remaining <= 0) {
-          alert("ขออภัย คูปองของที่ระลึกครบตามจำนวนโควต้าแล้ว แต่คุณยังสามารถดาวน์โหลด E-Book ได้ครับ");
-        } else {
-          const randomPart = Math.random().toString(36).substring(2, 7).toUpperCase();
-          currentUser.couponCode = `PHRAE-${randomPart}`;
-          await persistUser(currentUser);
-        }
-      }
-
       lockedEl.classList.add("hidden");
       unlockedEl.classList.remove("hidden");
+      document.getElementById("ui-reward-owner").textContent = currentUser.name;
 
-      document.getElementById("ui-coupon-code").textContent = currentUser.couponCode || "QUOTA-FULL";
-      document.getElementById("ui-coupon-owner").textContent = `${currentUser.name} (${currentUser.phone})`;
-
-      const qrBox = document.getElementById("coupon-qr-container");
-      qrBox.innerHTML = "";
-      if (currentUser.couponCode && typeof QRCode !== "undefined") {
-        new QRCode(qrBox, {
-          text: JSON.stringify({ code: currentUser.couponCode, phone: currentUser.phone }),
-          width: 140,
-          height: 140
-        });
-      }
-
-      const badge = document.getElementById("coupon-status-badge");
-      const btnRedeem = document.getElementById("btn-staff-redeem");
-      if (currentUser.redeemed) {
-        badge.className = "inline-block px-3 py-1 rounded-full text-xs font-semibold bg-slate-200 text-slate-600";
-        badge.textContent = "✓ ใช้สิทธิ์แลกของที่ระลึกแล้ว";
-        btnRedeem.classList.add("hidden");
-      } else {
-        badge.className = "inline-block px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700";
-        badge.textContent = "● พร้อมใช้งาน (ยังไม่แลกรับ)";
-        btnRedeem.classList.remove("hidden");
-      }
-    }
-
-    async function staffRedeemCoupon() {
-      const pin = prompt("สำหรับเจ้าหน้าที่: กรุณากรอกรหัส PIN เพื่อยืนยันการมอบของที่ระลึก");
-      if (pin === null) return;
-      if (pin !== CONFIG.staffPin) {
-        alert("รหัส PIN ไม่ถูกต้อง");
-        return;
-      }
-      currentUser.redeemed = true;
-      currentUser.redeemedAt = new Date().toISOString();
-      await persistUser(currentUser);
-      renderRewardPage();
-      alert("บันทึกการแลกรับของที่ระลึกเรียบร้อยแล้ว!");
+      const dlBadge = document.getElementById("ui-ebook-downloaded-badge");
+      if (currentUser.ebookDownloaded) dlBadge.classList.remove("hidden");
+      else dlBadge.classList.add("hidden");
     }
 
     async function downloadEbook() {
+      window.open(CONFIG.ebookUrl, "_blank");
       if (!currentUser.ebookDownloaded) {
         currentUser.ebookDownloaded = true;
         await persistUser(currentUser);
+        renderRewardPage();
       }
-      window.open(CONFIG.ebookUrl, "_blank");
     }
 
+    // ==========================================
+    // ADMIN DASHBOARD (Real-time จาก Google Sheets)
+    // ==========================================
     function openAdminModal() {
       const pin = prompt("กรุณากรอกรหัส PIN ผู้ดูแลระบบ (ค่าเริ่มต้น: 1234)");
       if (pin !== CONFIG.staffPin) {
         if (pin !== null) alert("รหัสผ่านไม่ถูกต้อง");
         return;
       }
-      renderAdminData();
       document.getElementById("admin-modal").classList.remove("hidden");
+      fetchAdminLiveData();
     }
 
     function closeAdminModal() {
       document.getElementById("admin-modal").classList.add("hidden");
     }
 
-    function renderAdminData() {
-      const db = getLocalDB();
-      document.getElementById("adm-total-reg").textContent = db.length;
-      document.getElementById("adm-total-quiz").textContent = db.filter(u => u.quizPassed).length;
-      document.getElementById("adm-total-coupon").textContent = db.filter(u => u.couponCode).length;
-      document.getElementById("adm-total-redeemed").textContent = db.filter(u => u.redeemed).length;
-      document.getElementById("adm-total-ebook").textContent = db.filter(u => u.ebookDownloaded).length;
+    async function fetchAdminLiveData(silent = false) {
+      const statusBadge = document.getElementById("adm-sync-status");
+      if (!silent) statusBadge.textContent = "กำลังซิงค์ข้อมูล...";
 
-      const tbody = document.getElementById("adm-table-body");
-      if (db.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">ยังไม่มีข้อมูลผู้ร่วมกิจกรรม</td></tr>`;
+      if (!CONFIG.googleScriptUrl) {
+        adminLiveList = getLocalDB();
+        statusBadge.textContent = "LocalStorage";
+        updateAdminKPIs(adminLiveList);
+        renderAdminTable();
         return;
       }
 
-      tbody.innerHTML = db.map(u => `
-        <tr class="hover:bg-slate-50">
-          <td class="p-2.5">
-            <div class="font-semibold">${u.name}</div>
-            <div class="text-[11px] text-slate-500">${u.phone}</div>
-          </td>
-          <td class="p-2.5">
-            🗺️ ${(u.exploredZones || []).length} | ❓ ${u.quizPassed ? 'ผ่าน' : '-'} | 📸 ${u.socialUrl ? 'ส่งแล้ว' : '-'}
-          </td>
-          <td class="p-2.5 max-w-[140px] truncate">
-            ${u.socialUrl ? `<a href="${u.socialUrl}" target="_blank" class="text-purple-700 underline">${u.socialPlatform}</a>` : '-'}
-          </td>
-          <td class="p-2.5 font-mono font-bold text-purple-800">${u.couponCode || '-'}</td>
-          <td class="p-2.5">
-            ${u.redeemed ? '<span class="text-emerald-600 font-semibold">✓ แลกแล้ว</span>' : (u.couponCode ? '<span class="text-amber-600">รอแลก</span>' : '-')}
-          </td>
-        </tr>
-      `).join("");
+      try {
+        const res = await fetch(`${CONFIG.googleScriptUrl}?action=list&t=${Date.now()}`);
+        const json = await res.json();
+        if (json.status === "ok") {
+          adminLiveList = json.participants || [];
+          statusBadge.textContent = "🟢 Live (Google Sheet)";
+          statusBadge.className = "text-[11px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-medium";
+          updateAdminKPIs(adminLiveList);
+          renderAdminTable();
+          document.getElementById("ui-total-participants").textContent = adminLiveList.length.toLocaleString();
+        }
+      } catch (err) {
+        statusBadge.textContent = "⚠️ เชื่อมต่อไม่ได้ (ดูข้อมูลในเครื่อง)";
+        statusBadge.className = "text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-medium";
+        adminLiveList = getLocalDB();
+        updateAdminKPIs(adminLiveList);
+        renderAdminTable();
+      }
+    }
+
+    function isUserCompleted(u) {
+      return (u.exploredZones || []).length >= CONFIG.minMapZonesToPass && u.quizPassed && Boolean(u.socialUrl);
+    }
+
+    function updateAdminKPIs(list) {
+      document.getElementById("adm-total-reg").textContent = list.length;
+      document.getElementById("adm-total-quiz").textContent = list.filter(u => u.quizPassed).length;
+      document.getElementById("adm-total-complete").textContent = list.filter(isUserCompleted).length;
+      document.getElementById("adm-total-ebook").textContent = list.filter(u => u.ebookDownloaded).length;
+    }
+
+    function renderAdminTable() {
+      const q = (document.getElementById("adm-search").value || "").toLowerCase().trim();
+      const filtered = adminLiveList.filter(u =>
+        !q ||
+        (u.name || "").toLowerCase().includes(q) ||
+        (u.phone || "").includes(q) ||
+        (u.email || "").toLowerCase().includes(q)
+      );
+
+      const tbody = document.getElementById("adm-table-body");
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">ไม่พบข้อมูลผู้ร่วมกิจกรรม</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(u => {
+        const done = isUserCompleted(u);
+        return `
+          <tr class="hover:bg-slate-50">
+            <td class="p-2.5">
+              <div class="font-semibold">${u.name}</div>
+              <div class="text-[11px] text-slate-500">${u.phone}</div>
+            </td>
+            <td class="p-2.5">
+              🗺️ ${(u.exploredZones || []).length} | ❓ ${u.quizPassed ? 'ผ่าน' : '-'} | 📸 ${u.socialUrl ? 'ส่งแล้ว' : '-'}
+            </td>
+            <td class="p-2.5 max-w-[130px] truncate">
+              ${u.socialUrl ? `<a href="${u.socialUrl}" target="_blank" class="text-purple-700 underline">${u.socialPlatform || 'ดูโพสต์'}</a>` : '-'}
+            </td>
+            <td class="p-2.5">
+              ${done ? '<span class="text-emerald-600 font-semibold">✓ ครบ 4 ด่าน</span>' : '<span class="text-slate-400">กำลังทำ</span>'}
+            </td>
+            <td class="p-2.5">
+              ${u.ebookDownloaded ? '<span class="text-purple-700 font-semibold">📥 โหลดแล้ว</span>' : '-'}
+            </td>
+          </tr>
+        `;
+      }).join("");
     }
 
     function exportCSV() {
-      const db = getLocalDB();
-      if (db.length === 0) return alert("ไม่มีข้อมูลสำหรับ Export");
+      const list = adminLiveList.length ? adminLiveList : getLocalDB();
+      if (list.length === 0) return alert("ไม่มีข้อมูลสำหรับ Export");
 
-      const headers = ["ID", "ชื่อ", "เบอร์โทร", "อีเมล", "กลุ่ม", "จำนวนโซนแผนที่", "Quizผ่าน", "แพลตฟอร์ม", "ลิงก์โซเชียล", "รหัสคูปอง", "แลกรับแล้ว", "โหลดE-Bookแล้ว", "เวลาลงทะเบียน"];
-      const rows = db.map(u => [
+      const headers = ["ID", "ชื่อ", "เบอร์โทร", "อีเมล", "กลุ่ม", "จำนวนโซนแผนที่", "Quizผ่าน", "แพลตฟอร์ม", "ลิงก์โซเชียล", "ทำครบ4ด่าน", "โหลดE-Bookแล้ว", "เวลาลงทะเบียน"];
+      const rows = list.map(u => [
         u.id, `"${u.name}"`, `"${u.phone}"`, `"${u.email}"`, `"${u.group}"`,
         (u.exploredZones || []).length, u.quizPassed ? "Yes" : "No",
         `"${u.socialPlatform || ""}"`, `"${u.socialUrl || ""}"`,
-        u.couponCode || "", u.redeemed ? "Yes" : "No", u.ebookDownloaded ? "Yes" : "No", u.createdAt
+        isUserCompleted(u) ? "Yes" : "No", u.ebookDownloaded ? "Yes" : "No", u.createdAt
       ]);
 
       const csvContent = "\uFEFF" + [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
@@ -1067,17 +1028,6 @@
       link.href = URL.createObjectURL(blob);
       link.download = `amazing_phrae_data_${new Date().toISOString().slice(0, 10)}.csv`;
       link.click();
-    }
-
-    function clearAllDemoData() {
-      if (confirm("ยืนยันการลบข้อมูลผู้ร่วมกิจกรรมทั้งหมดในเครื่องนี้?")) {
-        localStorage.removeItem(DB_KEY);
-        localStorage.removeItem(CURRENT_USER_KEY);
-        currentUser = null;
-        renderAdminData();
-        refreshUI();
-        switchTab(1);
-      }
     }
   </script>
 </body>
