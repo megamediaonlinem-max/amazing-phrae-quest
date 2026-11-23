@@ -9,10 +9,6 @@
   <style>
     body { font-family: 'Prompt', sans-serif; background-color: #faf5ff; }
     .tab-active { background-color: #6b21a8 !important; color: #ffffff !important; border-color: #6b21a8 !important; }
-    .nav-img-active {
-      box-shadow: 0 0 0 2.5px #f59e0b, 0 4px 12px rgba(107, 33, 168, 0.35);
-      background-color: rgba(250, 204, 21, 0.14);
-    }
     .pin-pulse { animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
     @keyframes pulse-ring {
       0% { transform: translate(-50%, -50%) scale(0.95); box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.9); }
@@ -127,66 +123,78 @@
     <main class="max-w-xl mx-auto px-3 sm:px-4 pt-3">
 
       <!-- ========================================== -->
-      <!-- IMAGE NAVIGATION BAR (ปุ่มไอคอน 6 ปุ่มตามภาพ) -->
+      <!-- IMAGE NAVIGATION BAR (ปกติสีขาว / ชี้เมาส์หรือหน้าปัจจุบันสีม่วง) -->
       <!-- ========================================== -->
       <nav class="mb-4">
-        <div id="nav-image-container" class="bg-white rounded-2xl shadow-sm border border-purple-100 p-1 sm:p-1.5">
-          <div class="relative w-full overflow-hidden rounded-xl select-none" style="aspect-ratio: 100 / 19.8;">
+        <div id="nav-image-container" class="bg-white rounded-2xl shadow-sm border border-purple-100 px-1 py-1 overflow-hidden">
+          <div class="relative w-full select-none" style="margin-top: -10.5%; margin-bottom: -10.5%;">
+            <!-- ชั้นที่ 1: ภาพปุ่มสีขาว (สถานะปกติ) -->
             <img
-              id="nav-buttons-img"
-              src="./nav-buttons.png"
+              id="nav-white-img"
+              src="./nav-white.png"
               alt="เมนูนำทางกิจกรรม"
               class="w-full h-auto block pointer-events-none"
-              style="margin-top: -17.3%;"
-              onerror="handleNavImageError(this)"
+              onerror="handleNavWhiteError(this)"
             />
 
-            <!-- ปุ่ม 1: หน้าแรก -->
-            <button type="button" onclick="backToLanding()" title="กลับหน้าแรก"
-              style="left: 1.2%; width: 16.2%; top: 0; height: 100%;"
-              class="absolute rounded-xl cursor-pointer hover:bg-purple-500/10 active:scale-95 transition focus:outline-none">
+            <!-- ชั้นที่ 2: ภาพปุ่มสีม่วง (แสดงเฉพาะปุ่มของหน้าที่กำลังเปิดอยู่) -->
+            <img
+              id="nav-purple-active"
+              src="./nav-purple.png"
+              alt=""
+              class="absolute inset-0 w-full h-full object-fill pointer-events-none"
+              style="clip-path: inset(0% 76.65% 0% 1.5%);"
+              onerror="handleNavPurpleError(this)"
+            />
+
+            <!-- ชั้นที่ 3: ภาพปุ่มสีม่วง (แสดงเมื่อเอาเมาส์ชี้) -->
+            <img
+              id="nav-purple-hover"
+              src="./nav-purple.png"
+              alt=""
+              class="absolute inset-0 w-full h-full object-fill pointer-events-none opacity-0 transition-opacity duration-150"
+            />
+
+            <!-- ปุ่มกด 5 ช่องวางตรงกับปุ่มในภาพ -->
+            <!-- 1. ลงทะเบียน -->
+            <button type="button" onclick="switchTab(1)" onmouseenter="hoverNavTab(1)" onmouseleave="clearHoverNavTab()" id="tab-btn-1" title="ลงทะเบียน"
+              style="left: 1.8%; width: 21.3%; top: 35%; height: 28%;"
+              class="tab-btn absolute rounded-full cursor-pointer focus:outline-none">
+              <span id="status-icon-1" class="hidden absolute -top-1 right-0 w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center shadow ring-2 ring-white">✓</span>
             </button>
 
-            <!-- ปุ่ม 2: ลงทะเบียน -->
-            <button type="button" onclick="switchTab(1)" id="tab-btn-1" title="ลงทะเบียน"
-              style="left: 17.7%; width: 16.1%; top: 0; height: 100%;"
-              class="tab-btn absolute rounded-xl cursor-pointer hover:bg-purple-500/10 active:scale-95 transition focus:outline-none">
-              <span id="status-icon-1" class="hidden absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center shadow">✓</span>
+            <!-- 2. แผนผังงาน -->
+            <button type="button" onclick="switchTab(2)" onmouseenter="hoverNavTab(2)" onmouseleave="clearHoverNavTab()" id="tab-btn-2" title="แผนผังงาน"
+              style="left: 23.4%; width: 21.0%; top: 35%; height: 28%;"
+              class="tab-btn absolute rounded-full cursor-pointer focus:outline-none">
+              <span id="status-icon-2" class="hidden absolute -top-1 right-0 w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center shadow ring-2 ring-white">✓</span>
             </button>
 
-            <!-- ปุ่ม 3: แผนผังงาน -->
-            <button type="button" onclick="switchTab(2)" id="tab-btn-2" title="แผนผังงาน"
-              style="left: 34.1%; width: 16.1%; top: 0; height: 100%;"
-              class="tab-btn absolute rounded-xl cursor-pointer hover:bg-purple-500/10 active:scale-95 transition focus:outline-none">
-              <span id="status-icon-2" class="hidden absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center shadow">✓</span>
+            <!-- 3. Quiz -->
+            <button type="button" onclick="switchTab(3)" onmouseenter="hoverNavTab(3)" onmouseleave="clearHoverNavTab()" id="tab-btn-3" title="Quiz"
+              style="left: 44.5%; width: 15.0%; top: 35%; height: 28%;"
+              class="tab-btn absolute rounded-full cursor-pointer focus:outline-none">
+              <span id="status-icon-3" class="hidden absolute -top-1 right-0 w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center shadow ring-2 ring-white">✓</span>
             </button>
 
-            <!-- ปุ่ม 4: Quiz -->
-            <button type="button" onclick="switchTab(3)" id="tab-btn-3" title="Quiz"
-              style="left: 50.4%; width: 16.1%; top: 0; height: 100%;"
-              class="tab-btn absolute rounded-xl cursor-pointer hover:bg-purple-500/10 active:scale-95 transition focus:outline-none">
-              <span id="status-icon-3" class="hidden absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center shadow">✓</span>
+            <!-- 4. แชร์ภาพ -->
+            <button type="button" onclick="switchTab(4)" onmouseenter="hoverNavTab(4)" onmouseleave="clearHoverNavTab()" id="tab-btn-4" title="แชร์ภาพ"
+              style="left: 59.6%; width: 19.1%; top: 35%; height: 28%;"
+              class="tab-btn absolute rounded-full cursor-pointer focus:outline-none">
+              <span id="status-icon-4" class="hidden absolute -top-1 right-0 w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center shadow ring-2 ring-white">✓</span>
             </button>
 
-            <!-- ปุ่ม 5: แชร์ภาพ -->
-            <button type="button" onclick="switchTab(4)" id="tab-btn-4" title="แชร์ภาพ"
-              style="left: 66.6%; width: 16.1%; top: 0; height: 100%;"
-              class="tab-btn absolute rounded-xl cursor-pointer hover:bg-purple-500/10 active:scale-95 transition focus:outline-none">
-              <span id="status-icon-4" class="hidden absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center shadow">✓</span>
-            </button>
-
-            <!-- ปุ่ม 6: E-Book -->
-            <button type="button" onclick="switchTab(5)" id="tab-btn-5" title="E-Book"
-              style="left: 82.8%; width: 16.1%; top: 0; height: 100%;"
-              class="tab-btn absolute rounded-xl cursor-pointer hover:bg-purple-500/10 active:scale-95 transition focus:outline-none">
-              <span id="status-icon-5" class="absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-slate-700/85 text-white text-[9px] flex items-center justify-center shadow">🔒</span>
+            <!-- 5. E-Book -->
+            <button type="button" onclick="switchTab(5)" onmouseenter="hoverNavTab(5)" onmouseleave="clearHoverNavTab()" id="tab-btn-5" title="E-Book"
+              style="left: 78.8%; width: 19.3%; top: 35%; height: 28%;"
+              class="tab-btn absolute rounded-full cursor-pointer focus:outline-none">
+              <span id="status-icon-5" class="absolute -top-1 right-0 w-4 h-4 rounded-full bg-slate-700/90 text-white text-[9px] flex items-center justify-center shadow ring-2 ring-white">🔒</span>
             </button>
           </div>
         </div>
 
-        <!-- Fallback Text Buttons (แสดงเฉพาะกรณีไม่พบไฟล์ nav-buttons.png) -->
-        <div id="nav-fallback" class="hidden grid grid-cols-6 gap-1 text-center text-[10px] font-medium">
-          <button type="button" onclick="backToLanding()" class="py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm">🏠 หน้าแรก</button>
+        <!-- Fallback Text Buttons (แสดงเฉพาะกรณีไม่พบไฟล์ภาพปุ่ม) -->
+        <div id="nav-fallback" class="hidden grid grid-cols-5 gap-1.5 text-center text-[11px] font-medium">
           <button type="button" onclick="switchTab(1)" id="fb-btn-1" class="fb-btn py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm">ลงทะเบียน</button>
           <button type="button" onclick="switchTab(2)" id="fb-btn-2" class="fb-btn py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm">แผนผังงาน</button>
           <button type="button" onclick="switchTab(3)" id="fb-btn-3" class="fb-btn py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm">Quiz</button>
@@ -547,6 +555,15 @@
       googleScriptUrl: "https://script.google.com/macros/s/AKfycbx1FnfK_DVkPxPs3AGzcSLLvZvdr1MxHcXeK4edzagSuOBVlG9QutfVTOCI2l0l3rfO/exec"
     };
 
+    // ขอบเขตสำหรับตัดแสดงปุ่มสีม่วงทีละปุ่มจากภาพ nav-purple.png (inset: top right bottom left)
+    const NAV_CLIP_MAP = {
+      1: "inset(0% 76.65% 0% 1.5%)",   // ลงทะเบียน
+      2: "inset(0% 55.55% 0% 23.35%)", // แผนผังงาน
+      3: "inset(0% 40.45% 0% 44.45%)", // Quiz
+      4: "inset(0% 21.25% 0% 59.55%)", // แชร์ภาพ
+      5: "inset(0% 1.5% 0% 78.75%)"    // E-Book
+    };
+
     const MAP_ZONES = [
       {
         id: "zone1", num: "1",
@@ -628,6 +645,21 @@
     let currentTab = 1;
     let adminLiveList = [];
 
+    function hoverNavTab(step) {
+      const hoverImg = document.getElementById("nav-purple-hover");
+      if (hoverImg && NAV_CLIP_MAP[step]) {
+        hoverImg.style.clipPath = NAV_CLIP_MAP[step];
+        hoverImg.style.opacity = "1";
+      }
+    }
+
+    function clearHoverNavTab() {
+      const hoverImg = document.getElementById("nav-purple-hover");
+      if (hoverImg) {
+        hoverImg.style.opacity = "0";
+      }
+    }
+
     function enterApp() {
       document.getElementById("landing-screen").classList.add("hidden");
       document.getElementById("app-wrapper").classList.remove("hidden");
@@ -661,13 +693,22 @@
       }
     }
 
-    function handleNavImageError(img) {
+    function handleNavWhiteError(img) {
       if (!img.dataset.triedJpg) {
         img.dataset.triedJpg = "1";
-        img.src = "./nav-buttons.jpg";
+        img.src = "./nav-white.jpg";
       } else {
         document.getElementById("nav-image-container").classList.add("hidden");
         document.getElementById("nav-fallback").classList.remove("hidden");
+      }
+    }
+
+    function handleNavPurpleError(img) {
+      if (!img.dataset.triedJpg) {
+        img.dataset.triedJpg = "1";
+        img.src = "./nav-purple.jpg";
+      } else {
+        img.style.display = "none";
       }
     }
 
@@ -786,8 +827,11 @@
       document.querySelectorAll(".page-section").forEach(el => el.classList.add("hidden"));
       document.getElementById(`page-${step}`).classList.remove("hidden");
 
-      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("nav-img-active"));
-      document.getElementById(`tab-btn-${step}`).classList.add("nav-img-active");
+      // เปลี่ยนปุ่มของหน้าปัจจุบันเป็นสีม่วง
+      const activePurple = document.getElementById("nav-purple-active");
+      if (activePurple && NAV_CLIP_MAP[step]) {
+        activePurple.style.clipPath = NAV_CLIP_MAP[step];
+      }
 
       document.querySelectorAll(".fb-btn").forEach(btn => btn.classList.remove("tab-active"));
       const fbBtn = document.getElementById(`fb-btn-${step}`);
