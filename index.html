@@ -211,9 +211,7 @@
         </div>
       </section>
 
-      <!-- ========================================== -->
-      <!-- PAGE 2: Digital Gastronomy Map (กรอบกดใหญ่คลุมหมุด + ชื่อจังหวัด) -->
-      <!-- ========================================== -->
+      <!-- PAGE 2: Digital Gastronomy Map -->
       <section id="page-2" class="page-section hidden bg-white rounded-2xl shadow-sm border border-purple-100 p-4 sm:p-5">
         <div class="mb-3 flex justify-between items-start gap-2">
           <div>
@@ -224,7 +222,6 @@
           <span id="ui-map-count" class="px-2.5 py-1 bg-purple-100 text-purple-800 rounded-lg text-xs font-semibold shrink-0">0/2 จังหวัด</span>
         </div>
 
-        <!-- ภาพแผนที่ + กรอบกดขนาดใหญ่คลุมทั้งหมุดและข้อความชื่อจังหวัด -->
         <div class="relative w-full rounded-2xl border-2 border-purple-300 overflow-hidden mb-3 select-none bg-gradient-to-b from-purple-950 via-slate-950 to-purple-950 shadow-inner">
           <img id="event-map-img" src="./map-phrae.png" alt="Digital Gastronomy Map แผนที่เส้นทางอาหารเหนือ" class="w-full h-auto block" onerror="handleMapImageError(this)" />
           <div id="map-img-error" class="hidden p-8 text-center text-white text-xs bg-slate-800 leading-relaxed">
@@ -236,26 +233,27 @@
           </button>
         </div>
 
-        <!-- กล่องแสดงข้อมูลจังหวัดที่กดเลือก + ปุ่มเช็กอิน -->
         <div id="zone-detail-card" class="p-4 bg-purple-50/70 border border-purple-200 rounded-xl mb-4">
           <p class="text-xs sm:text-sm text-purple-900 text-center">
             👆 แตะที่ <strong>ชื่อจังหวัดหรือหมุดบนแผนที่</strong> (หรือเลือกจาก 4 เส้นทางด้านล่าง) เพื่อดูแหล่งวัตถุดิบและกดเช็กอินครับ
           </p>
         </div>
 
-        <!-- รายการจังหวัดแบ่งตาม 4 เส้นทาง -->
         <div class="space-y-3">
           <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider">เส้นทางทั้ง 4 เส้นทาง (เชื่อมโยงวัตถุดิบเชฟบุ๊ค)</h3>
           <div id="route-groups-container" class="space-y-2.5"></div>
         </div>
       </section>
 
-      <!-- PAGE 3: Quiz -->
+      <!-- PAGE 3: Quiz (สุ่ม 3 ข้อ จากคลัง 15 ข้อ) -->
       <section id="page-3" class="page-section hidden bg-white rounded-2xl shadow-sm border border-purple-100 p-5">
         <div class="mb-4">
-          <span class="inline-block px-2.5 py-0.5 bg-purple-100 text-purple-800 text-xs font-semibold rounded-full mb-1">ภารกิจที่ 3</span>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="inline-block px-2.5 py-0.5 bg-purple-100 text-purple-800 text-xs font-semibold rounded-full">ภารกิจที่ 3</span>
+            <span class="inline-block px-2.5 py-0.5 bg-amber-100 text-amber-800 text-[11px] font-semibold rounded-full">🎲 สุ่ม 3 ข้อ จาก 15 ข้อ</span>
+          </div>
           <h2 class="text-xl font-bold text-slate-800">Quiz ตอบคำถามเส้นทางอาหารเหนือ</h2>
-          <p class="text-sm text-slate-500">ตอบคำถามจากข้อมูลวัตถุดิบในแผนที่ Gastronomy Map (ทำได้ 1 ครั้งเมื่อผ่านเกณฑ์)</p>
+          <p class="text-xs sm:text-sm text-slate-500">คำตอบทั้งหมดอยู่ในข้อมูล 9 จังหวัดในหน้าแผนที่ (ตอบถูกอย่างน้อย 2 ใน 3 ข้อ)</p>
         </div>
 
         <form id="quiz-form" onsubmit="handleQuizSubmit(event)" class="space-y-5">
@@ -379,6 +377,7 @@
       eventName: "๓๖๕ วัน มหัศจรรย์เมืองแพร่",
       hashtags: "#AmazingPhrae #365วันมหัศจรรย์เมืองแพร่ #PhraeGastronomy",
       minMapZonesToPass: 2,
+      quizQuestionsPerUser: 3,
       minQuizScoreToPass: 2,
       ebookUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
       googleScriptUrl: "https://script.google.com/macros/s/AKfycbx1FnfK_DVkPxPs3AGzcSLLvZvdr1MxHcXeK4edzagSuOBVlG9QutfVTOCI2l0l3rfO/exec"
@@ -419,7 +418,6 @@
       }
     ];
 
-    // กรอบกดขนาดใหญ่ (box: left, top, width, height เป็น %) คลุมทั้งตัวหมุด + ข้อความชื่อจังหวัดบนแผนที่
     const MAP_ZONES = [
       {
         id: "จ.แพร่",
@@ -431,7 +429,7 @@
           "ชุมชนผลิต ข้าวแต๋นน้ำแตงโม",
           "ย่านอาหารพื้นถิ่น ขนมเส้นน้ำย้อย และ กาดกองเก่า"
         ],
-        clue: "คำใบ้ Quiz: จ.แพร่ เป็นแหล่งปลูก 'มะแขว่น' เครื่องเทศล้านนาที่ อ.สอง"
+        clue: "คำใบ้ Quiz: จ.แพร่ มีมะแขว่น อ.สอง / ข้าวแต๋นน้ำแตงโม / ขนมเส้นน้ำย้อยและกาดกองเก่า"
       },
       {
         id: "จ.น่าน",
@@ -443,7 +441,7 @@
           "ส้มสีทองน่าน ผลไม้ขึ้นชื่อประจำถิ่น",
           "กาแฟดอยมณีพฤกษ์ และชุมชนท่องเที่ยวเชิงเกษตร"
         ],
-        clue: "คำใบ้ Quiz: เกลือสินเธาว์ภูเขา อ.บ่อเกลือ เป็นวัตถุดิบขึ้นชื่อจาก จ.น่าน"
+        clue: "คำใบ้ Quiz: เกลือสินเธาว์ภูเขา อ.บ่อเกลือ / ส้มสีทองน่าน / กาแฟดอยมณีพฤกษ์"
       },
       {
         id: "จ.เชียงใหม่",
@@ -454,7 +452,7 @@
           "ต้นตำรับ ข้าวซอย และ ไส้อั่ว ล้านนา",
           "แหล่งผลิตวัตถุดิบเกษตรอินทรีย์โครงการหลวง (มะเขือเทศราชินี ผักเมืองหนาว)"
         ],
-        clue: "คำใบ้: ต้นตำรับข้าวซอย-ไส้อั่ว และผักเมืองหนาวโครงการหลวง"
+        clue: "คำใบ้ Quiz: ต้นตำรับข้าวซอย-ไส้อั่ว และมะเขือเทศราชินี-ผักเมืองหนาวโครงการหลวง"
       },
       {
         id: "จ.ลำพูน",
@@ -465,7 +463,7 @@
           "แหล่งผลิต ลำไยสีทอง สินค้าสิ่งบ่งชี้ทางภูมิศาสตร์ (GI)",
           "สำรับอาหารพื้นเมืองล้านนา"
         ],
-        clue: "คำใบ้: ลำไยสีทอง สินค้า GI ขึ้นชื่อของ จ.ลำพูน"
+        clue: "คำใบ้ Quiz: ลำไยสีทอง สินค้า GI ขึ้นชื่อของ จ.ลำพูน"
       },
       {
         id: "จ.ลำปาง",
@@ -476,7 +474,7 @@
           "ชุมชนผลิต ข้าวแต๋น กรอบอร่อย",
           "หัตถกรรม ชามตราไก่ เอกลักษณ์คู่สำรับอาหารเหนือ"
         ],
-        clue: "คำใบ้: ชุมชนผลิตข้าวแต๋น และหัตถกรรมชามตราไก่คู่สำรับอาหารเหนือ"
+        clue: "คำใบ้ Quiz: ชุมชนผลิตข้าวแต๋น และหัตถกรรมชามตราไก่คู่สำรับอาหารเหนือ"
       },
       {
         id: "จ.เชียงราย",
@@ -487,7 +485,7 @@
           "แหล่งปลูก ชาอัสสัม ดอยแม่สลอง",
           "สับปะรดภูแล ผลไม้หวานกรอบขึ้นชื่อ"
         ],
-        clue: "คำใบ้: ชาอัสสัม ดอยแม่สลอง และสับปะรดภูแล จาก จ.เชียงราย"
+        clue: "คำใบ้ Quiz: ชาอัสสัม ดอยแม่สลอง และสับปะรดภูแล จาก จ.เชียงราย"
       },
       {
         id: "จ.พะเยา",
@@ -497,7 +495,7 @@
         highlights: [
           "ชุมชนประมงพื้นบ้าน ปลาส้มกว๊านพะเยา สูตรดั้งเดิม"
         ],
-        clue: "คำใบ้: ปลาส้มกว๊านพะเยา จากชุมชนประมงพื้นบ้าน จ.พะเยา"
+        clue: "คำใบ้ Quiz: ปลาส้มกว๊านพะเยา จากชุมชนประมงพื้นบ้าน จ.พะเยา"
       },
       {
         id: "จ.แม่ฮ่องสอน",
@@ -508,7 +506,7 @@
           "วัฒนธรรมอาหาร ไทใหญ่ อันเป็นเอกลักษณ์",
           "ภูมิปัญญาการแปรรูป ถั่วเน่าแผ่น วัตถุดิบชูรสพื้นถิ่น"
         ],
-        clue: "คำใบ้: วัฒนธรรมอาหารไทใหญ่ และถั่วเน่าแผ่น จ.แม่ฮ่องสอน"
+        clue: "คำใบ้ Quiz: วัฒนธรรมอาหารไทใหญ่ และถั่วเน่าแผ่น จ.แม่ฮ่องสอน"
       },
       {
         id: "จ.อุตรดิตถ์",
@@ -523,23 +521,96 @@
       }
     ];
 
-    const QUIZ_QUESTIONS = [
+    // คลังคำถามทั้งหมด 15 ข้อ (ระบบจะสุ่มมาแสดงให้แต่ละคน 3 ข้อไม่เหมือนกัน)
+    const QUIZ_BANK = [
       {
         id: "q1",
-        question: "1. จังหวัดแพร่ (พื้นที่จัดงานหลัก) เป็นแหล่งปลูกเครื่องเทศล้านนาสำคัญชนิดใดในอำเภอสอง?",
+        question: "จังหวัดแพร่ (พื้นที่จัดงานหลัก) เป็นแหล่งปลูกเครื่องเทศล้านนาสำคัญชนิดใดในอำเภอสอง?",
         options: ["มะแขว่น", "ชาอัสสัม", "ทุเรียนหลงลับแล"],
         answerIndex: 0
       },
       {
         id: "q2",
-        question: "2. เกลือสินเธาว์ภูเขา อำเภอบ่อเกลือ เป็นวัตถุดิบขึ้นชื่อจากจังหวัดใดในเส้นทางที่ ๑?",
-        options: ["จังหวัดน่าน", "จังหวัดเชียงราย", "จังหวัดลำพูน"],
-        answerIndex: 0
+        question: "ขนมพื้นบ้านขึ้นชื่อของชุมชนในจังหวัดแพร่ที่ใช้น้ำผลไม้เป็นส่วนผสมคือข้อใด?",
+        options: ["ข้าวหลาม", "ข้าวแต๋นน้ำแตงโม", "ขนมชั้น"],
+        answerIndex: 1
       },
       {
         id: "q3",
-        question: "3. ทุเรียนหลง-หลินลับแล และข้าวพันผัก เป็นผลไม้ GI และอาหารถิ่นของจังหวัดใด?",
-        options: ["จังหวัดลำปาง", "จังหวัดพะเยา", "จังหวัดอุตรดิตถ์"],
+        question: "เมนูอาหารพื้นถิ่นเลื่องชื่อในจังหวัดแพร่ คู่กับย่านกาดกองเก่าคือเมนูใด?",
+        options: ["ข้าวพันผัก", "ปลาส้ม", "ขนมเส้นน้ำย้อย"],
+        answerIndex: 2
+      },
+      {
+        id: "q4",
+        question: "แหล่งผลิตเกลือสินเธาว์ภูเขาอันขึ้นชื่อของจังหวัดน่าน อยู่ที่อำเภอใด?",
+        options: ["อำเภอบ่อเกลือ", "อำเภอแม่สาย", "อำเภอลับแล"],
+        answerIndex: 0
+      },
+      {
+        id: "q5",
+        question: "กาแฟและผลไม้ขึ้นชื่อของจังหวัดน่านในเส้นทางที่ ๑ คือข้อใด?",
+        options: ["ชาอัสสัม และสับปะรดภูแล", "กาแฟดอยมณีพฤกษ์ และส้มสีทองน่าน", "ลำไยสีทอง และข้าวแต๋น"],
+        answerIndex: 1
+      },
+      {
+        id: "q6",
+        question: "ในเส้นทางที่ ๒ เมนูต้นตำรับล้านนาคู่กับ 'ไส้อั่ว' ของจังหวัดเชียงใหม่คือเมนูใด?",
+        options: ["ส้มตำ", "หมี่กะทิ", "ข้าวซอย"],
+        answerIndex: 2
+      },
+      {
+        id: "q7",
+        question: "วัตถุดิบเกษตรอินทรีย์โครงการหลวงจากจังหวัดเชียงใหม่ที่ระบุในแผนที่คือข้อใด?",
+        options: ["มะเขือเทศราชินี และผักเมืองหนาว", "ทุเรียนหลง-หลิน", "ถั่วเน่าแผ่น"],
+        answerIndex: 0
+      },
+      {
+        id: "q8",
+        question: "ผลไม้ที่เป็นสินค้าสิ่งบ่งชี้ทางภูมิศาสตร์ (GI) ขึ้นชื่อของจังหวัดลำพูนคือข้อใด?",
+        options: ["สับปะรดภูแล", "ลำไยสีทอง", "ส้มสีทองน่าน"],
+        answerIndex: 1
+      },
+      {
+        id: "q9",
+        question: "หัตถกรรมเอกลักษณ์คู่สำรับอาหารเหนือจากจังหวัดลำปางคือสิ่งใด?",
+        options: ["เครื่องปั้นดินเผาด่านเกวียน", "กระติบข้าวเหนียว", "ชามตราไก่"],
+        answerIndex: 2
+      },
+      {
+        id: "q10",
+        question: "บนดอยแม่สลอง จังหวัดเชียงราย เป็นแหล่งปลูกชาสายพันธุ์ใดที่ขึ้นชื่อ?",
+        options: ["ชาอัสสัม", "ชาเขียวญี่ปุ่นมัทฉะ", "ชาชักปักษ์ใต้"],
+        answerIndex: 0
+      },
+      {
+        id: "q11",
+        question: "ผลไม้รสชาติหวานกรอบขึ้นชื่อของจังหวัดเชียงรายในเส้นทางที่ ๓ คือข้อใด?",
+        options: ["ลำไยสีทอง", "สับปะรดภูแล", "ทุเรียนหลินลับแล"],
+        answerIndex: 1
+      },
+      {
+        id: "q12",
+        question: "ผลิตภัณฑ์ขึ้นชื่อจากชุมชนประมงพื้นบ้าน จังหวัดพะเยา คือข้อใด?",
+        options: ["ปลาทูแม่กลอง", "ปลาร้าบอง", "ปลาส้มกว๊านพะเยา"],
+        answerIndex: 2
+      },
+      {
+        id: "q13",
+        question: "วัตถุดิบพื้นถิ่นจากภูมิปัญญาการแปรรูปและวัฒนธรรมอาหารไทใหญ่ จังหวัดแม่ฮ่องสอน คือข้อใด?",
+        options: ["ถั่วเน่าแผ่น", "พริกลาบ", "กะปิเคย"],
+        answerIndex: 0
+      },
+      {
+        id: "q14",
+        question: "ผลไม้ GI ชื่อดังของเมืองลับแล จังหวัดอุตรดิตถ์ ในเส้นทางที่ ๔ คือข้อใด?",
+        options: ["ส้มสีทอง", "ทุเรียนหลง-หลินลับแล", "สับปะรดภูแล"],
+        answerIndex: 1
+      },
+      {
+        id: "q15",
+        question: "อาหารพื้นบ้านเอกลักษณ์ของจังหวัดอุตรดิตถ์ในเส้นทางที่ ๔ คือเมนูใด?",
+        options: ["ข้าวซอยไก่", "ขนมเส้นน้ำเงี้ยว", "ข้าวพันผัก"],
         answerIndex: 2
       }
     ];
@@ -550,6 +621,29 @@
     let currentUser = null;
     let activeZoneId = null;
     let currentTab = 1;
+
+    // ฟังก์ชันสุ่มอาเรย์แบบ Fisher-Yates
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    // คืนค่ารายการคำถาม 3 ข้อที่สุ่มไว้เฉพาะผู้เล่นคนนี้
+    function getUserQuizQuestions() {
+      if (!currentUser) return [];
+      if (!Array.isArray(currentUser.assignedQuizIds) || currentUser.assignedQuizIds.length !== CONFIG.quizQuestionsPerUser) {
+        const picked = shuffleArray(QUIZ_BANK).slice(0, CONFIG.quizQuestionsPerUser);
+        currentUser.assignedQuizIds = picked.map(q => q.id);
+        saveLocalUser(currentUser);
+      }
+      return currentUser.assignedQuizIds
+        .map(id => QUIZ_BANK.find(q => q.id === id))
+        .filter(Boolean);
+    }
 
     function hoverNavTab(step) {
       const hoverImg = document.getElementById("nav-purple-hover");
@@ -706,15 +800,14 @@
       document.getElementById("ui-hashtags").textContent = CONFIG.hashtags;
       document.getElementById("ui-map-target").textContent = CONFIG.minMapZonesToPass;
 
-      renderMapPins();
-      renderQuizQuestions();
-
       const savedPhone = localStorage.getItem(CURRENT_USER_KEY);
       if (savedPhone) {
         const db = getLocalDB();
         currentUser = db.find(u => u.phone === savedPhone) || null;
       }
 
+      renderMapPins();
+      renderQuizQuestions();
       refreshUI(true);
       switchTab(currentUser ? getNextMissionStep() : 1);
 
@@ -746,6 +839,7 @@
       const fbBtn = document.getElementById(`fb-btn-${step}`);
       if (fbBtn) fbBtn.classList.add("tab-active");
 
+      if (step === 3) renderQuizQuestions();
       if (step === 5) renderRewardPage();
     }
 
@@ -803,7 +897,7 @@
         const box = document.getElementById("quiz-result-box");
         box.className = "mt-4 p-4 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-800 text-sm";
         box.innerHTML = `
-          <div class="font-bold mb-1">✅ คุณทำภารกิจ Quiz ผ่านแล้ว (คะแนน ${currentUser.quizScore}/${QUIZ_QUESTIONS.length})</div>
+          <div class="font-bold mb-1">✅ คุณทำภารกิจ Quiz ผ่านแล้ว (คะแนน ${currentUser.quizScore}/${CONFIG.quizQuestionsPerUser})</div>
           <p class="text-xs mb-3">สามารถร่วมสนุกได้ 1 ครั้งต่อ 1 ท่านครับ</p>
           <button type="button" onclick="switchTab(4)" class="bg-emerald-600 text-white px-4 py-2 rounded-lg text-xs font-semibold">ไปภารกิจถัดไป →</button>
         `;
@@ -852,10 +946,14 @@
         return;
       }
 
+      // สุ่มชุดคำถาม 3 ข้อเฉพาะสำหรับคนนี้ทันทีตั้งแต่ลงทะเบียน
+      const pickedQuiz = shuffleArray(QUIZ_BANK).slice(0, CONFIG.quizQuestionsPerUser);
+
       const newUser = {
         id: "PHR-" + Date.now().toString(36).toUpperCase() + "-" + Math.random().toString(36).substring(2, 8).toUpperCase(),
         name, phone, email, group,
         exploredZones: [],
+        assignedQuizIds: pickedQuiz.map(q => q.id),
         quizPassed: false, quizScore: 0,
         socialPlatform: "", socialUrl: "",
         ebookDownloaded: false,
@@ -899,7 +997,6 @@
       switchTab(2);
     }
 
-    // สร้างกรอบกดใหญ่คลุมหมุด + ชื่อจังหวัดบนภาพแผนที่ และปุ่ม 4 เส้นทางด้านล่าง
     function renderMapPins() {
       const container = document.getElementById("map-pins-container");
       const routesContainer = document.getElementById("route-groups-container");
@@ -1026,9 +1123,22 @@
 
     function renderQuizQuestions() {
       const container = document.getElementById("quiz-questions-container");
-      container.innerHTML = QUIZ_QUESTIONS.map(q => `
+      const questions = getUserQuizQuestions();
+
+      if (questions.length === 0) {
+        container.innerHTML = "";
+        return;
+      }
+
+      // ถ้ามีคำตอบที่เคยเลือกค้างไว้ในหน้านี้ ไม่ต้องล้างทับโดยไม่จำเป็น
+      if (container.dataset.renderedFor === (currentUser.assignedQuizIds || []).join(",")) {
+        return;
+      }
+      container.dataset.renderedFor = (currentUser.assignedQuizIds || []).join(",");
+
+      container.innerHTML = questions.map((q, idx) => `
         <div class="p-4 bg-purple-50/40 border border-purple-100 rounded-xl">
-          <p class="font-semibold text-sm text-slate-800 mb-2.5">${q.question}</p>
+          <p class="font-semibold text-sm text-slate-800 mb-2.5">${idx + 1}. ${q.question}</p>
           <div class="space-y-2">
             ${q.options.map((opt, oIdx) => `
               <label class="flex items-center gap-2.5 p-2.5 bg-white border rounded-lg cursor-pointer hover:border-purple-400 text-sm">
@@ -1046,8 +1156,9 @@
       if (!currentUser) return switchTab(1);
       if (currentUser.quizPassed) return;
 
+      const questions = getUserQuizQuestions();
       let score = 0;
-      QUIZ_QUESTIONS.forEach(q => {
+      questions.forEach(q => {
         const selected = document.querySelector(`input[name="quiz_${q.id}"]:checked`);
         if (selected && parseInt(selected.value, 10) === q.answerIndex) score++;
       });
@@ -1063,7 +1174,7 @@
       } else {
         box.className = "mt-4 p-4 rounded-xl border bg-red-50 border-red-200 text-red-800 text-sm";
         box.innerHTML = `
-          <div class="font-bold mb-1">❌ คุณตอบถูก ${score} / ${QUIZ_QUESTIONS.length} ข้อ (ต้องถูกอย่างน้อย ${CONFIG.minQuizScoreToPass} ข้อ)</div>
+          <div class="font-bold mb-1">❌ คุณตอบถูก ${score} / ${questions.length} ข้อ (ต้องถูกอย่างน้อย ${CONFIG.minQuizScoreToPass} ข้อ)</div>
           <p class="text-xs">ลองกลับไปดูข้อมูลในหน้าแผนผังงาน แล้วเลือกคำตอบใหม่อีกครั้งนะครับ</p>
         `;
       }
