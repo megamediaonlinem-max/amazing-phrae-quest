@@ -70,20 +70,35 @@
   <!-- ========================================== -->
   <div id="app-wrapper" class="hidden pb-20">
 
-    <!-- Header -->
-    <header class="bg-gradient-to-r from-purple-900 via-purple-800 to-fuchsia-800 text-white shadow-md sticky top-0 z-40">
-      <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <button type="button" onclick="backToLanding()" title="กลับหน้าแรก" class="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs">
-            🏠
-          </button>
-          <div>
-            <h1 class="font-bold text-sm sm:text-lg leading-tight text-amber-300" id="ui-event-name">๓๖๕ วัน มหัศจรรย์เมืองแพร่</h1>
-            <p class="text-[11px] text-purple-100">Amazing PHRAE • PHRAE Gastronomy Tourism</p>
-          </div>
+    <!-- Header Image Banner (แสดงส่วนหัวทุกหน้า) -->
+    <div class="bg-white">
+      <div class="max-w-xl mx-auto">
+        <img
+          id="header-banner-img"
+          src="./header-phrae.png"
+          alt="๓๖๕ วัน มหัศจรรย์เมืองแพร่"
+          class="w-full h-auto block select-none"
+          onerror="handleHeaderImageError(this)"
+        />
+        <div id="header-img-fallback" class="hidden bg-gradient-to-r from-purple-900 via-purple-800 to-fuchsia-800 text-white px-4 py-3 text-center">
+          <h1 class="font-bold text-base sm:text-lg text-amber-300">๓๖๕ วัน มหัศจรรย์เมืองแพร่</h1>
+          <p class="text-[11px] text-purple-100">Amazing PHRAE • PHRAE Gastronomy Tourism</p>
         </div>
-        <div class="text-right flex items-center gap-2">
-          <div class="bg-black/30 backdrop-blur px-2.5 py-1 rounded-lg text-xs border border-amber-400/40 flex items-center gap-1.5">
+      </div>
+    </div>
+
+    <!-- Sticky Control & Progress Bar -->
+    <header class="bg-gradient-to-r from-purple-900 via-purple-800 to-fuchsia-800 text-white shadow-md sticky top-0 z-40">
+      <div class="max-w-xl mx-auto px-4 py-2 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2 min-w-0">
+          <button type="button" onclick="backToLanding()" title="กลับหน้าแรก" class="px-2 py-1 rounded-lg bg-white/15 hover:bg-white/25 text-xs font-medium flex items-center gap-1 shrink-0">
+            <span>🏠</span>
+            <span class="hidden sm:inline">หน้าแรก</span>
+          </button>
+          <span class="text-xs sm:text-sm font-semibold text-amber-300 truncate" id="ui-event-name">๓๖๕ วัน มหัศจรรย์เมืองแพร่</span>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <div class="bg-black/30 backdrop-blur px-2.5 py-1 rounded-lg text-[11px] sm:text-xs border border-amber-400/40 flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-emerald-400 live-dot" title="อัปเดต Real-time"></span>
             <span>ผู้ร่วมกิจกรรม: <span id="ui-total-participants" class="font-bold text-amber-300">-</span> คน</span>
           </div>
@@ -94,14 +109,14 @@
       </div>
 
       <!-- Progress Bar -->
-      <div class="bg-purple-950/50 px-4 py-2">
+      <div class="bg-purple-950/50 px-4 py-1.5">
         <div class="max-w-xl mx-auto">
-          <div class="flex justify-between text-xs mb-1 text-purple-100">
+          <div class="flex justify-between text-[11px] mb-1 text-purple-100">
             <span>ความคืบหน้าภารกิจ</span>
             <span id="ui-progress-text">0 / 4 สำเร็จ</span>
           </div>
-          <div class="w-full bg-purple-950 rounded-full h-2">
-            <div id="ui-progress-bar" class="bg-amber-400 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+          <div class="w-full bg-purple-950 rounded-full h-1.5">
+            <div id="ui-progress-bar" class="bg-amber-400 h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
           </div>
         </div>
       </div>
@@ -135,10 +150,9 @@
       </nav>
 
       <!-- ========================================== -->
-      <!-- PAGE 1: หน้าลงทะเบียน (แบบภาพกราฟิกเต็มใบ + ช่องกรอกทับตำแหน่งจริง) -->
+      <!-- PAGE 1: หน้าลงทะเบียน -->
       <!-- ========================================== -->
       <section id="page-1" class="page-section">
-        <!-- Form Graphic Wrapper -->
         <div id="register-graphic-box" class="relative w-full max-w-md mx-auto rounded-2xl overflow-hidden shadow-lg border border-purple-200 bg-purple-950">
           <img
             id="reg-bg-img"
@@ -215,20 +229,17 @@
               class="absolute rounded-full cursor-pointer bg-transparent hover:bg-white/15 active:scale-95 transition focus:outline-none focus:ring-4 focus:ring-amber-300/60"
             ></button>
 
-            <!-- Loading indicator -->
             <div id="reg-loading-pill" class="hidden absolute left-1/2 -translate-x-1/2 bottom-3 bg-purple-900/90 text-amber-300 text-xs px-4 py-1.5 rounded-full shadow-lg">
               ⏳ กำลังบันทึกข้อมูล...
             </div>
           </form>
 
-          <!-- Fallback notice if reg-phrae image is missing -->
           <div id="reg-img-error" class="hidden bg-white p-6 text-center space-y-3">
             <p class="text-sm font-bold text-red-600">⚠️ ไม่พบไฟล์ภาพ <code>reg-phrae.jpg</code></p>
             <p class="text-xs text-slate-600">กรุณาอัปโหลดรูปหน้าลงทะเบียนชื่อ <strong>reg-phrae.jpg</strong> ไว้ในโฟลเดอร์เดียวกับ <code>index.html</code></p>
           </div>
         </div>
 
-        <!-- Registered Summary Card (แสดงเมื่อลงทะเบียนแล้ว) -->
         <div id="registered-summary" class="hidden bg-white rounded-2xl shadow-sm border border-emerald-200 p-5">
           <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
             <div class="flex items-center gap-2 text-emerald-700 font-semibold mb-1">
@@ -591,6 +602,16 @@
         img.style.display = "none";
         document.getElementById("landing-start-btn").classList.add("hidden");
         document.getElementById("cover-img-error").classList.remove("hidden");
+      }
+    }
+
+    function handleHeaderImageError(img) {
+      if (!img.dataset.triedJpg) {
+        img.dataset.triedJpg = "1";
+        img.src = "./header-phrae.jpg";
+      } else {
+        img.style.display = "none";
+        document.getElementById("header-img-fallback").classList.remove("hidden");
       }
     }
 
