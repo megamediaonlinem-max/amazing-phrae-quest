@@ -212,40 +212,41 @@
       </section>
 
       <!-- ========================================== -->
-      <!-- PAGE 2: Digital Gastronomy Map (กดเลือกจากข้อความชื่อจังหวัด) -->
+      <!-- PAGE 2: Digital Gastronomy Map (กรอบกดใหญ่คลุมหมุด + ชื่อจังหวัด) -->
       <!-- ========================================== -->
       <section id="page-2" class="page-section hidden bg-white rounded-2xl shadow-sm border border-purple-100 p-4 sm:p-5">
         <div class="mb-3 flex justify-between items-start gap-2">
           <div>
             <span class="inline-block px-2.5 py-0.5 bg-purple-100 text-purple-800 text-xs font-semibold rounded-full mb-1">ภารกิจที่ 2 • Digital Gastronomy Map</span>
             <h2 class="text-lg sm:text-xl font-bold text-slate-800">เส้นทางวัตถุดิบอาหารเหนือ 9 จังหวัด</h2>
-            <p class="text-xs text-slate-500">ดูเส้นทางจากแผนที่ แล้วกดเลือกชื่อจังหวัดด้านล่างเพื่ออ่านข้อมูลและเช็กอินอย่างน้อย <span id="ui-map-target">2</span> จังหวัด</p>
+            <p class="text-xs text-slate-500">แตะที่ <strong>ชื่อจังหวัดหรือหมุดบนแผนที่</strong> เพื่ออ่านข้อมูลและเช็กอินอย่างน้อย <span id="ui-map-target">2</span> จังหวัด</p>
           </div>
           <span id="ui-map-count" class="px-2.5 py-1 bg-purple-100 text-purple-800 rounded-lg text-xs font-semibold shrink-0">0/2 จังหวัด</span>
         </div>
 
-        <!-- ภาพแผนที่ภาคเหนือ (แสดงภาพอย่างเดียว กดขยายเต็มจอได้) -->
-        <div class="relative w-full rounded-2xl border-2 border-purple-300 overflow-hidden mb-4 select-none bg-gradient-to-b from-purple-950 via-slate-950 to-purple-950 shadow-inner">
+        <!-- ภาพแผนที่ + กรอบกดขนาดใหญ่คลุมทั้งหมุดและข้อความชื่อจังหวัด -->
+        <div class="relative w-full rounded-2xl border-2 border-purple-300 overflow-hidden mb-3 select-none bg-gradient-to-b from-purple-950 via-slate-950 to-purple-950 shadow-inner">
           <img id="event-map-img" src="./map-phrae.png" alt="Digital Gastronomy Map แผนที่เส้นทางอาหารเหนือ" class="w-full h-auto block" onerror="handleMapImageError(this)" />
           <div id="map-img-error" class="hidden p-8 text-center text-white text-xs bg-slate-800 leading-relaxed">
             ⚠️ ยังไม่พบไฟล์ภาพแผนที่ <code>map-phrae.png</code> (หรือ <code>map-phrae.jpg</code>)
           </div>
-          <button type="button" onclick="openMapZoom()" class="absolute bottom-2 right-2 bg-black/75 hover:bg-black text-white text-[11px] px-2.5 py-1 rounded-lg backdrop-blur flex items-center gap-1 shadow border border-white/25">
+          <div id="map-pins-container" class="absolute inset-0"></div>
+          <button type="button" onclick="openMapZoom()" class="absolute bottom-2 right-2 bg-black/75 hover:bg-black text-white text-[11px] px-2.5 py-1 rounded-lg backdrop-blur flex items-center gap-1 shadow border border-white/25 z-10">
             🔍 ขยายแผนที่
           </button>
         </div>
 
-        <!-- รายการปุ่มข้อความเลือกจังหวัด แบ่งตาม 4 เส้นทาง -->
-        <div class="space-y-3 mb-4">
-          <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider">👇 กดเลือกจังหวัดที่ต้องการสำรวจ (แบ่งตาม 4 เส้นทางเชฟบุ๊ค)</h3>
-          <div id="route-groups-container" class="space-y-2.5"></div>
+        <!-- กล่องแสดงข้อมูลจังหวัดที่กดเลือก + ปุ่มเช็กอิน -->
+        <div id="zone-detail-card" class="p-4 bg-purple-50/70 border border-purple-200 rounded-xl mb-4">
+          <p class="text-xs sm:text-sm text-purple-900 text-center">
+            👆 แตะที่ <strong>ชื่อจังหวัดหรือหมุดบนแผนที่</strong> (หรือเลือกจาก 4 เส้นทางด้านล่าง) เพื่อดูแหล่งวัตถุดิบและกดเช็กอินครับ
+          </p>
         </div>
 
-        <!-- กล่องแสดงข้อมูลจังหวัดที่กดเลือก + ปุ่มเช็กอิน -->
-        <div id="zone-detail-card" class="p-4 bg-purple-50/70 border border-purple-200 rounded-xl">
-          <p class="text-xs sm:text-sm text-purple-900 text-center">
-            👆 กดเลือกชื่อจังหวัดด้านบน เพื่อดูแหล่งวัตถุดิบ อาหารพื้นถิ่น และกดเช็กอินครับ
-          </p>
+        <!-- รายการจังหวัดแบ่งตาม 4 เส้นทาง -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider">เส้นทางทั้ง 4 เส้นทาง (เชื่อมโยงวัตถุดิบเชฟบุ๊ค)</h3>
+          <div id="route-groups-container" class="space-y-2.5"></div>
         </div>
       </section>
 
@@ -391,7 +392,6 @@
       5: "inset(0% 1.5% 0% 78.75%)"
     };
 
-    // ข้อมูล 4 เส้นทาง Gastronomy Map
     const ROUTES_META = [
       {
         routeId: "r1",
@@ -419,12 +419,13 @@
       }
     ];
 
-    // ข้อมูลวัตถุดิบทั้ง 9 จังหวัด (กดเลือกจากข้อความได้เลย)
+    // กรอบกดขนาดใหญ่ (box: left, top, width, height เป็น %) คลุมทั้งตัวหมุด + ข้อความชื่อจังหวัดบนแผนที่
     const MAP_ZONES = [
       {
         id: "จ.แพร่",
         routeId: "r1",
         name: "จ.แพร่ (พื้นที่จัดงานหลัก)",
+        box: { left: 39.5, top: 47.5, width: 24.5, height: 19.5 },
         highlights: [
           "แหล่งปลูก มะแขว่น อ.สอง เครื่องเทศเอกลักษณ์ล้านนา",
           "ชุมชนผลิต ข้าวแต๋นน้ำแตงโม",
@@ -436,6 +437,7 @@
         id: "จ.น่าน",
         routeId: "r1",
         name: "จ.น่าน",
+        box: { left: 70.0, top: 37.0, width: 16.0, height: 12.5 },
         highlights: [
           "แหล่งผลิต เกลือสินเธาว์ภูเขา อ.บ่อเกลือ",
           "ส้มสีทองน่าน ผลไม้ขึ้นชื่อประจำถิ่น",
@@ -447,6 +449,7 @@
         id: "จ.เชียงใหม่",
         routeId: "r2",
         name: "จ.เชียงใหม่",
+        box: { left: 29.5, top: 16.0, width: 21.0, height: 11.8 },
         highlights: [
           "ต้นตำรับ ข้าวซอย และ ไส้อั่ว ล้านนา",
           "แหล่งผลิตวัตถุดิบเกษตรอินทรีย์โครงการหลวง (มะเขือเทศราชินี ผักเมืองหนาว)"
@@ -457,6 +460,7 @@
         id: "จ.ลำพูน",
         routeId: "r2",
         name: "จ.ลำพูน",
+        box: { left: 23.0, top: 44.5, width: 16.3, height: 12.5 },
         highlights: [
           "แหล่งผลิต ลำไยสีทอง สินค้าสิ่งบ่งชี้ทางภูมิศาสตร์ (GI)",
           "สำรับอาหารพื้นเมืองล้านนา"
@@ -467,6 +471,7 @@
         id: "จ.ลำปาง",
         routeId: "r2",
         name: "จ.ลำปาง",
+        box: { left: 45.0, top: 28.0, width: 18.0, height: 12.0 },
         highlights: [
           "ชุมชนผลิต ข้าวแต๋น กรอบอร่อย",
           "หัตถกรรม ชามตราไก่ เอกลักษณ์คู่สำรับอาหารเหนือ"
@@ -477,6 +482,7 @@
         id: "จ.เชียงราย",
         routeId: "r3",
         name: "จ.เชียงราย",
+        box: { left: 52.0, top: 4.0, width: 22.5, height: 12.5 },
         highlights: [
           "แหล่งปลูก ชาอัสสัม ดอยแม่สลอง",
           "สับปะรดภูแล ผลไม้หวานกรอบขึ้นชื่อ"
@@ -487,6 +493,7 @@
         id: "จ.พะเยา",
         routeId: "r3",
         name: "จ.พะเยา",
+        box: { left: 66.5, top: 18.5, width: 18.0, height: 13.0 },
         highlights: [
           "ชุมชนประมงพื้นบ้าน ปลาส้มกว๊านพะเยา สูตรดั้งเดิม"
         ],
@@ -496,6 +503,7 @@
         id: "จ.แม่ฮ่องสอน",
         routeId: "r3",
         name: "จ.แม่ฮ่องสอน",
+        box: { left: 11.5, top: 27.5, width: 24.0, height: 12.5 },
         highlights: [
           "วัฒนธรรมอาหาร ไทใหญ่ อันเป็นเอกลักษณ์",
           "ภูมิปัญญาการแปรรูป ถั่วเน่าแผ่น วัตถุดิบชูรสพื้นถิ่น"
@@ -506,6 +514,7 @@
         id: "จ.อุตรดิตถ์",
         routeId: "r4",
         name: "จ.อุตรดิตถ์",
+        box: { left: 55.5, top: 67.5, width: 21.5, height: 12.5 },
         highlights: [
           "แหล่งปลูก ทุเรียนหลง-หลินลับแล (ผลไม้ GI เมืองลับแล)",
           "อาหารพื้นบ้าน ข้าวพันผัก เมนูสุขภาพคู่เมือง"
@@ -697,7 +706,7 @@
       document.getElementById("ui-hashtags").textContent = CONFIG.hashtags;
       document.getElementById("ui-map-target").textContent = CONFIG.minMapZonesToPass;
 
-      renderRouteButtons();
+      renderMapPins();
       renderQuizQuestions();
 
       const savedPhone = localStorage.getItem(CURRENT_USER_KEY);
@@ -787,7 +796,7 @@
 
       const exploredCount = currentUser ? (currentUser.exploredZones || []).length : 0;
       document.getElementById("ui-map-count").textContent = `${exploredCount}/${CONFIG.minMapZonesToPass} จังหวัด`;
-      renderRouteButtons();
+      renderMapPins();
 
       if (currentUser && currentUser.quizPassed) {
         document.getElementById("quiz-form").classList.add("hidden");
@@ -890,10 +899,40 @@
       switchTab(2);
     }
 
-    // แสดงปุ่มชื่อจังหวัดแบ่งตาม 4 เส้นทาง (กดตรงข้อความได้เลย)
-    function renderRouteButtons() {
+    // สร้างกรอบกดใหญ่คลุมหมุด + ชื่อจังหวัดบนภาพแผนที่ และปุ่ม 4 เส้นทางด้านล่าง
+    function renderMapPins() {
+      const container = document.getElementById("map-pins-container");
       const routesContainer = document.getElementById("route-groups-container");
       const explored = currentUser ? (currentUser.exploredZones || []) : [];
+
+      container.innerHTML = "";
+
+      MAP_ZONES.forEach(zone => {
+        const isChecked = explored.includes(zone.id);
+        const isSelected = activeZoneId === zone.id;
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.title = zone.name;
+        btn.setAttribute("aria-label", zone.name);
+        btn.style.left = `${zone.box.left}%`;
+        btn.style.top = `${zone.box.top}%`;
+        btn.style.width = `${zone.box.width}%`;
+        btn.style.height = `${zone.box.height}%`;
+        btn.className = `absolute rounded-2xl cursor-pointer transition-all duration-150 focus:outline-none ${
+          isChecked
+            ? 'ring-2 ring-emerald-400 bg-emerald-400/15'
+            : (isSelected
+                ? 'ring-3 ring-amber-400 bg-amber-300/20 shadow-lg'
+                : 'hover:bg-amber-300/20 hover:ring-2 hover:ring-amber-300/80 active:scale-95')
+        }`;
+
+        if (isChecked) {
+          btn.innerHTML = `<span class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-emerald-500 text-white text-[11px] font-bold flex items-center justify-center shadow ring-2 ring-white">✓</span>`;
+        }
+        btn.onclick = () => selectMapZone(zone.id);
+        container.appendChild(btn);
+      });
 
       routesContainer.innerHTML = ROUTES_META.map(route => {
         const zonesInRoute = MAP_ZONES.filter(z => z.routeId === route.routeId);
@@ -903,16 +942,16 @@
               <span class="w-2.5 h-2.5 rounded-full ${route.dotColor} shrink-0"></span>
               <div class="text-xs font-bold text-slate-800 leading-snug">${route.title}</div>
             </div>
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-1.5">
               ${zonesInRoute.map(z => {
                 const isChecked = explored.includes(z.id);
                 const isSelected = activeZoneId === z.id;
                 return `
                   <button type="button" onclick="selectMapZone('${z.id}')"
-                    class="px-3 py-2 rounded-xl border text-xs sm:text-sm font-medium transition flex items-center gap-1.5 ${
+                    class="px-2.5 py-1.5 rounded-lg border text-xs font-medium transition flex items-center gap-1 ${
                       isChecked
                         ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
-                        : (isSelected ? 'bg-purple-700 border-purple-700 text-white shadow-sm' : 'bg-white hover:bg-purple-50 border-slate-200 text-slate-700 shadow-sm')
+                        : (isSelected ? 'bg-purple-700 border-purple-700 text-white shadow-sm' : 'bg-white hover:bg-purple-50 border-slate-200 text-slate-700')
                     }">
                     <span>${z.id}</span>
                     <span>${isChecked ? '✅' : '📍'}</span>
@@ -927,7 +966,7 @@
 
     function selectMapZone(zoneId) {
       activeZoneId = zoneId;
-      renderRouteButtons();
+      renderMapPins();
 
       const zone = MAP_ZONES.find(z => z.id === zoneId);
       if (!zone) return;
