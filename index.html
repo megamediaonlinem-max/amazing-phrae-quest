@@ -427,9 +427,10 @@
         </div>
       </section>
 
-      <!-- PAGE 5: ขอบคุณที่ร่วมสนุก & ดาวน์โหลด E-Book -->
-      <section id="page-5" class="page-section hidden bg-white rounded-2xl shadow-sm border border-purple-100 p-5">
-        <div id="reward-locked" class="text-center py-8">
+      <!-- PAGE 5: ขอบคุณที่ร่วมสนุก & ดาวน์โหลด E-Book (แบบภาพกราฟิกเต็มใบ) -->
+      <section id="page-5" class="page-section hidden">
+        <!-- กรณีภารกิจยังไม่ครบ 4 ขั้นตอน -->
+        <div id="reward-locked" class="bg-white rounded-2xl shadow-sm border border-purple-100 p-5 text-center py-8">
           <div class="text-5xl mb-3">🔒</div>
           <h2 class="text-xl font-bold text-slate-800 mb-2">ยังปลดล็อก E-Book ไม่ได้</h2>
           <p class="text-sm text-slate-500 mb-5">กรุณาทำภารกิจทั้ง 4 ขั้นตอนให้ครบถ้วน เพื่อเข้าสู่หน้าขอบคุณและดาวน์โหลด E-Book</p>
@@ -439,33 +440,42 @@
           </button>
         </div>
 
-        <div id="reward-unlocked" class="hidden text-center py-4">
-          <div class="text-5xl mb-3">🎉</div>
-          <div class="inline-block px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-full mb-2">
-            ภารกิจสำเร็จครบทั้ง 4 ขั้นตอน
+        <!-- กรณีภารกิจครบ 4 ขั้นตอนแล้ว (แสดงภาพกราฟิก + ปุ่มกดดาวน์โหลด E-Book) -->
+        <div id="reward-unlocked" class="hidden">
+          <div id="ebook-graphic-box" class="relative w-full max-w-md mx-auto rounded-2xl overflow-hidden shadow-lg border border-purple-200 bg-white">
+            <img
+              id="ebook-bg-img"
+              src="./ebook-phrae.jpg"
+              alt="ขอบคุณที่ร่วมสนุกกับกิจกรรม และดาวน์โหลด E-Book เส้นทางอาหารเหนือเมืองแพร่"
+              class="w-full h-auto block select-none"
+              onerror="handleEbookImageError(this)"
+            />
+
+            <!-- ปุ่มกดวางทับตำแหน่ง "ดาวน์โหลด E-Book" สีทองในภาพ -->
+            <button
+              id="ebook-download-hitbox"
+              type="button"
+              onclick="downloadEbook()"
+              aria-label="ดาวน์โหลด E-Book"
+              style="top: 66.2%; left: 31.2%; width: 60.5%; height: 10%;"
+              class="absolute rounded-full cursor-pointer bg-transparent hover:bg-white/15 active:scale-95 transition focus:outline-none focus:ring-4 focus:ring-amber-300/70"
+            ></button>
+
+            <!-- Fallback กรณีไม่พบไฟล์ภาพ ebook-phrae.jpg -->
+            <div id="ebook-img-fallback" class="hidden p-6 text-center space-y-4">
+              <div class="text-4xl">🎉</div>
+              <h2 class="text-xl font-bold text-purple-900">ขอบคุณที่ร่วมสนุกกับกิจกรรม</h2>
+              <p class="text-sm text-slate-600">ขอขอบคุณคุณ <strong id="ui-reward-owner" class="text-purple-800"></strong></p>
+              <p class="text-xs text-red-500">(ไม่พบไฟล์ภาพ <code>ebook-phrae.jpg</code>)</p>
+              <button type="button" onclick="downloadEbook()" class="w-full bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold py-3 rounded-xl shadow">
+                📥 ดาวน์โหลด E-Book
+              </button>
+            </div>
           </div>
-          <h2 class="text-2xl font-bold text-purple-900 mb-2">ขอบคุณที่ร่วมสนุกกับกิจกรรม</h2>
-          <p class="text-sm text-slate-600 mb-6">
-            ขอขอบคุณคุณ <strong id="ui-reward-owner" class="text-purple-800"></strong><br>
-            ที่มาร่วมเป็นส่วนหนึ่งในงาน ๓๖๕ วัน มหัศจรรย์เมืองแพร่ (Amazing PHRAE)
+
+          <p id="ui-ebook-downloaded-badge" class="hidden text-center text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-xl py-2 px-3 mt-3 font-medium max-w-md mx-auto">
+            ✓ เปิดไฟล์และบันทึกการดาวน์โหลด E-Book เรียบร้อยแล้ว
           </p>
-
-          <div class="bg-gradient-to-br from-purple-900 via-purple-800 to-fuchsia-900 text-white rounded-2xl p-6 shadow-lg border border-amber-400/30">
-            <span class="inline-block text-[11px] uppercase tracking-wider bg-amber-400 text-slate-900 font-bold px-3 py-0.5 rounded-full mb-2">
-              Exclusive E-Book
-            </span>
-            <h3 class="font-bold text-lg mb-1">E-Book เส้นทางอาหารเหนือเมืองแพร่</h3>
-            <p class="text-xs text-purple-200 mb-5">สามารถกดดาวน์โหลดเพื่อเก็บไว้อ่านได้ทันที</p>
-
-            <button type="button" onclick="downloadEbook()"
-              class="w-full bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold py-3.5 px-6 rounded-xl text-base shadow-md transition flex items-center justify-center gap-2">
-              <span>📥 ดาวน์โหลด E-Book</span>
-            </button>
-
-            <p id="ui-ebook-downloaded-badge" class="hidden text-xs text-emerald-300 mt-3 font-medium">
-              ✓ บันทึกการดาวน์โหลด E-Book เรียบร้อยแล้ว
-            </p>
-          </div>
         </div>
       </section>
 
