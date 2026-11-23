@@ -22,6 +22,11 @@
       0%, 100% { box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.55); }
       50% { box-shadow: 0 0 0 10px rgba(250, 204, 21, 0); }
     }
+    .reg-overlay-input {
+      font-size: clamp(11px, 3.1vw, 14px);
+      line-height: 1.1;
+      padding: 0 10px;
+    }
   </style>
 </head>
 <body class="text-slate-800 antialiased">
@@ -39,7 +44,6 @@
         onerror="handleCoverImageError(this)"
       />
 
-      <!-- กรณีไม่พบไฟล์ภาพปก -->
       <div id="cover-img-error" class="hidden p-10 text-center text-white space-y-4">
         <div class="text-4xl">✨</div>
         <h1 class="text-2xl font-bold text-amber-300">๓๖๕ วัน มหัศจรรย์เมืองแพร่</h1>
@@ -50,7 +54,6 @@
         </button>
       </div>
 
-      <!-- ปุ่มกดวางตรงตำแหน่ง "เริ่มต้นการเดินทาง >" บนภาพพอดี -->
       <button
         id="landing-start-btn"
         type="button"
@@ -131,63 +134,112 @@
         </button>
       </nav>
 
-      <!-- PAGE 1: ลงทะเบียน -->
-      <section id="page-1" class="page-section bg-white rounded-2xl shadow-sm border border-purple-100 p-5">
-        <div class="mb-4">
-          <span class="inline-block px-2.5 py-0.5 bg-purple-100 text-purple-800 text-xs font-semibold rounded-full mb-1">ภารกิจที่ 1 (โซนที่ 1 : จุดต้อนรับ)</span>
-          <h2 class="text-xl font-bold text-slate-800">ลงทะเบียนร่วมกิจกรรม</h2>
-          <p class="text-xs text-slate-500">ณ สวนสุขภาพเฉลิมพระเกียรติรัชกาลที่ ๙ จังหวัดแพร่</p>
-        </div>
+      <!-- ========================================== -->
+      <!-- PAGE 1: หน้าลงทะเบียน (แบบภาพกราฟิกเต็มใบ + ช่องกรอกทับตำแหน่งจริง) -->
+      <!-- ========================================== -->
+      <section id="page-1" class="page-section">
+        <!-- Form Graphic Wrapper -->
+        <div id="register-graphic-box" class="relative w-full max-w-md mx-auto rounded-2xl overflow-hidden shadow-lg border border-purple-200 bg-purple-950">
+          <img
+            id="reg-bg-img"
+            src="./reg-phrae.jpg"
+            alt="ลงทะเบียนเข้าร่วมกิจกรรม ๓๖๕ วัน มหัศจรรย์เมืองแพร่"
+            class="w-full h-auto block select-none"
+            onerror="handleRegImageError(this)"
+          />
 
-        <form id="register-form" onsubmit="handleRegister(event)" class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">ชื่อ - นามสกุล <span class="text-red-500">*</span></label>
-            <input type="text" id="reg-name" required placeholder="เช่น สมชาย ใจดี"
-              class="w-full px-3.5 py-2.5 border rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none text-sm" />
-          </div>
+          <form id="register-form" onsubmit="handleRegister(event)" class="absolute inset-0">
+            <!-- 1. ชื่อ-นามสกุล -->
+            <input
+              type="text"
+              id="reg-name"
+              required
+              placeholder="กรอกชื่อ - นามสกุล"
+              style="top: 46.7%; left: 27.7%; width: 54.2%; height: 3.4%;"
+              class="absolute reg-overlay-input bg-transparent focus:bg-white/95 text-slate-800 rounded-full outline-none focus:ring-2 focus:ring-purple-600"
+            />
 
-          <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">เบอร์โทรศัพท์ <span class="text-red-500">*</span></label>
-            <input type="tel" id="reg-phone" required pattern="[0-9]{9,10}" placeholder="0812345678"
-              class="w-full px-3.5 py-2.5 border rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none text-sm" />
-          </div>
+            <!-- 2. เบอร์โทรศัพท์ -->
+            <input
+              type="tel"
+              id="reg-phone"
+              required
+              pattern="[0-9]{9,10}"
+              placeholder="08xxxxxxxx"
+              style="top: 53.4%; left: 27.7%; width: 54.2%; height: 3.4%;"
+              class="absolute reg-overlay-input bg-transparent focus:bg-white/95 text-slate-800 rounded-full outline-none focus:ring-2 focus:ring-purple-600"
+            />
 
-          <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">อีเมล (สำหรับรับข้อมูล/E-Book) <span class="text-red-500">*</span></label>
-            <input type="email" id="reg-email" required placeholder="example@email.com"
-              class="w-full px-3.5 py-2.5 border rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none text-sm" />
-          </div>
+            <!-- 3. อีเมล -->
+            <input
+              type="email"
+              id="reg-email"
+              required
+              placeholder="example@email.com"
+              style="top: 60.1%; left: 27.7%; width: 54.2%; height: 3.4%;"
+              class="absolute reg-overlay-input bg-transparent focus:bg-white/95 text-slate-800 rounded-full outline-none focus:ring-2 focus:ring-purple-600"
+            />
 
-          <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">กลุ่มผู้เข้าร่วม</label>
-            <select id="reg-group" class="w-full px-3.5 py-2.5 border rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none text-sm bg-white">
+            <!-- 4. ประเภทผู้เข้าร่วม -->
+            <select
+              id="reg-group"
+              required
+              style="top: 67.4%; left: 27.7%; width: 54.2%; height: 3.4%; padding-right: 28px;"
+              class="absolute reg-overlay-input appearance-none bg-transparent focus:bg-white/95 text-slate-800 rounded-full outline-none focus:ring-2 focus:ring-purple-600 cursor-pointer"
+            >
               <option value="นักท่องเที่ยว / บุคคลทั่วไป">นักท่องเที่ยว / บุคคลทั่วไป</option>
               <option value="ประชาชนในพื้นที่จังหวัดแพร่">ประชาชนในพื้นที่จังหวัดแพร่</option>
               <option value="นักเรียน / นักศึกษา">นักเรียน / นักศึกษา</option>
               <option value="ผู้ประกอบการ / สื่อมวลชน">ผู้ประกอบการ / สื่อมวลชน</option>
             </select>
+
+            <!-- 5. PDPA Checkbox -->
+            <input
+              type="checkbox"
+              id="reg-pdpa"
+              required
+              style="top: 72.5%; left: 18.7%; width: 4.4%; height: 2.9%;"
+              class="peer absolute appearance-none bg-transparent checked:bg-purple-700/90 rounded cursor-pointer outline-none focus:ring-2 focus:ring-purple-500"
+            />
+            <span
+              style="top: 72.5%; left: 18.7%; width: 4.4%; height: 2.9%;"
+              class="pointer-events-none absolute flex items-center justify-center text-white font-bold text-xs sm:text-sm opacity-0 peer-checked:opacity-100 transition"
+            >✓</span>
+
+            <!-- 6. ปุ่ม ลงทะเบียน > -->
+            <button
+              type="submit"
+              id="btn-register-submit"
+              aria-label="ลงทะเบียน"
+              style="top: 80.8%; left: 24.2%; width: 51.6%; height: 7.5%;"
+              class="absolute rounded-full cursor-pointer bg-transparent hover:bg-white/15 active:scale-95 transition focus:outline-none focus:ring-4 focus:ring-amber-300/60"
+            ></button>
+
+            <!-- Loading indicator -->
+            <div id="reg-loading-pill" class="hidden absolute left-1/2 -translate-x-1/2 bottom-3 bg-purple-900/90 text-amber-300 text-xs px-4 py-1.5 rounded-full shadow-lg">
+              ⏳ กำลังบันทึกข้อมูล...
+            </div>
+          </form>
+
+          <!-- Fallback notice if reg-phrae image is missing -->
+          <div id="reg-img-error" class="hidden bg-white p-6 text-center space-y-3">
+            <p class="text-sm font-bold text-red-600">⚠️ ไม่พบไฟล์ภาพ <code>reg-phrae.jpg</code></p>
+            <p class="text-xs text-slate-600">กรุณาอัปโหลดรูปหน้าลงทะเบียนชื่อ <strong>reg-phrae.jpg</strong> ไว้ในโฟลเดอร์เดียวกับ <code>index.html</code></p>
           </div>
+        </div>
 
-          <label class="flex items-start gap-2.5 text-xs text-slate-600 cursor-pointer pt-1">
-            <input type="checkbox" id="reg-pdpa" required class="mt-0.5 rounded text-purple-700 focus:ring-purple-500" />
-            <span>ยินยอมให้ผู้จัดงานเก็บข้อมูลส่วนบุคคลเพื่อใช้ในการร่วมกิจกรรม และจัดส่งข้อมูลข่าวสารตามนโยบาย PDPA</span>
-          </label>
-
-          <button type="submit" id="btn-register-submit"
-            class="w-full bg-purple-700 hover:bg-purple-800 text-white font-semibold py-3 rounded-xl shadow transition">
-            ลงทะเบียนและเริ่มสำรวจงาน →
-          </button>
-        </form>
-
-        <div id="registered-summary" class="hidden mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
-          <div class="flex items-center gap-2 text-emerald-700 font-semibold mb-1">
-            <span>✅ ลงทะเบียนเรียบร้อยแล้ว</span>
-          </div>
-          <p class="text-sm text-emerald-800">ยินดีต้อนรับคุณ <strong id="summary-name"></strong></p>
-          <p class="text-xs text-emerald-600 mt-1">เบอร์โทร: <span id="summary-phone"></span></p>
-          <div class="mt-3 flex gap-2">
-            <button type="button" onclick="switchTab(2)" class="flex-1 bg-emerald-600 text-white text-sm py-2 rounded-lg font-medium">ไปดูแผนผังงาน →</button>
-            <button type="button" onclick="resetUserSession()" class="px-3 py-2 text-xs text-slate-500 underline">เปลี่ยนผู้ใช้งาน</button>
+        <!-- Registered Summary Card (แสดงเมื่อลงทะเบียนแล้ว) -->
+        <div id="registered-summary" class="hidden bg-white rounded-2xl shadow-sm border border-emerald-200 p-5">
+          <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+            <div class="flex items-center gap-2 text-emerald-700 font-semibold mb-1">
+              <span>✅ ลงทะเบียนเรียบร้อยแล้ว</span>
+            </div>
+            <p class="text-sm text-emerald-800">ยินดีต้อนรับคุณ <strong id="summary-name"></strong></p>
+            <p class="text-xs text-emerald-600 mt-1">เบอร์โทร: <span id="summary-phone"></span></p>
+            <div class="mt-3 flex gap-2">
+              <button type="button" onclick="switchTab(2)" class="flex-1 bg-emerald-600 text-white text-sm py-2.5 rounded-lg font-medium shadow">ไปดูแผนผังงาน →</button>
+              <button type="button" onclick="resetUserSession()" class="px-3 py-2 text-xs text-slate-500 underline">เปลี่ยนผู้ใช้งาน</button>
+            </div>
           </div>
         </div>
       </section>
@@ -542,6 +594,16 @@
       }
     }
 
+    function handleRegImageError(img) {
+      if (!img.dataset.triedPng) {
+        img.dataset.triedPng = "1";
+        img.src = "./reg-phrae.png";
+      } else {
+        img.style.display = "none";
+        document.getElementById("reg-img-error").classList.remove("hidden");
+      }
+    }
+
     function handleMapImageError(img) {
       if (!img.dataset.triedPng) {
         img.dataset.triedPng = "1";
@@ -685,12 +747,12 @@
       document.getElementById("ui-progress-bar").style.width = `${(completed / 4) * 100}%`;
 
       if (currentUser) {
-        document.getElementById("register-form").classList.add("hidden");
+        document.getElementById("register-graphic-box").classList.add("hidden");
         document.getElementById("registered-summary").classList.remove("hidden");
         document.getElementById("summary-name").textContent = currentUser.name;
         document.getElementById("summary-phone").textContent = currentUser.phone;
       } else {
-        document.getElementById("register-form").classList.remove("hidden");
+        document.getElementById("register-graphic-box").classList.remove("hidden");
         document.getElementById("registered-summary").classList.add("hidden");
       }
 
@@ -720,8 +782,9 @@
     async function handleRegister(e) {
       e.preventDefault();
       const btn = document.getElementById("btn-register-submit");
+      const loadingPill = document.getElementById("reg-loading-pill");
       btn.disabled = true;
-      btn.textContent = "กำลังบันทึกข้อมูล...";
+      loadingPill.classList.remove("hidden");
 
       const name = document.getElementById("reg-name").value.trim();
       const phone = document.getElementById("reg-phone").value.trim();
@@ -754,7 +817,7 @@
       }
 
       btn.disabled = false;
-      btn.textContent = "ลงทะเบียนและเริ่มสำรวจงาน →";
+      loadingPill.classList.add("hidden");
       switchTab(getNextMissionStep());
     }
 
