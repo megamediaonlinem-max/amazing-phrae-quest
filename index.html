@@ -25,7 +25,9 @@
 </head>
 <body class="text-slate-800 antialiased">
 
-  <!-- LANDING PAGE -->
+  <!-- ========================================== -->
+  <!-- LANDING PAGE: หน้าแรกต้อนรับ -->
+  <!-- ========================================== -->
   <div id="landing-screen" class="min-h-screen bg-gradient-to-b from-purple-950 via-purple-900 to-fuchsia-950 flex flex-col items-center justify-center p-0 sm:p-4">
     <div class="relative w-full max-w-md mx-auto shadow-2xl sm:rounded-3xl overflow-hidden bg-purple-950">
       <img
@@ -56,10 +58,12 @@
     </div>
   </div>
 
-  <!-- APP WRAPPER -->
+  <!-- ========================================== -->
+  <!-- APP WRAPPER: หน้ากิจกรรมทั้ง 5 ขั้นตอน -->
+  <!-- ========================================== -->
   <div id="app-wrapper" class="hidden pb-20">
 
-    <!-- Header -->
+    <!-- Header Image Banner (พื้นหลังสีม่วงไล่เฉด) -->
     <header class="bg-gradient-to-r from-purple-950 via-purple-800 to-fuchsia-900 shadow-md sticky top-0 z-40 border-b border-purple-700">
       <div class="max-w-xl mx-auto relative bg-gradient-to-b from-purple-900 via-purple-800 to-purple-950">
         <img
@@ -245,12 +249,12 @@
         </div>
       </section>
 
-      <!-- PAGE 3: Quiz (สุ่ม 3 ข้อ จากคลัง 15 ข้อ) -->
+      <!-- PAGE 3: Quiz (สุ่ม 3 ข้อ จากคลัง 9 ข้อ) -->
       <section id="page-3" class="page-section hidden bg-white rounded-2xl shadow-sm border border-purple-100 p-5">
         <div class="mb-4">
           <div class="flex flex-wrap items-center gap-2 mb-1">
             <span class="inline-block px-2.5 py-0.5 bg-purple-100 text-purple-800 text-xs font-semibold rounded-full">ภารกิจที่ 3</span>
-            <span class="inline-block px-2.5 py-0.5 bg-amber-100 text-amber-800 text-[11px] font-semibold rounded-full">🎲 สุ่ม 3 ข้อ จาก 15 ข้อ</span>
+            <span class="inline-block px-2.5 py-0.5 bg-amber-100 text-amber-800 text-[11px] font-semibold rounded-full">🎲 สุ่ม 3 ข้อ จาก 9 ข้อ</span>
           </div>
           <h2 class="text-xl font-bold text-slate-800">Quiz ตอบคำถามเส้นทางอาหารเหนือ</h2>
           <p class="text-xs sm:text-sm text-slate-500">คำตอบทั้งหมดอยู่ในข้อมูล 9 จังหวัดในหน้าแผนที่ (ตอบถูกอย่างน้อย 2 ใน 3 ข้อ)</p>
@@ -521,7 +525,7 @@
       }
     ];
 
-    // คลังคำถามทั้งหมด 15 ข้อ (ระบบจะสุ่มมาแสดงให้แต่ละคน 3 ข้อไม่เหมือนกัน)
+    // คลังคำถาม 9 ข้อ (จังหวัดละ 1 ข้อ — สุ่มแสดงให้แต่ละคน 3 ข้อไม่เหมือนกัน)
     const QUIZ_BANK = [
       {
         id: "q1",
@@ -531,86 +535,50 @@
       },
       {
         id: "q2",
-        question: "ขนมพื้นบ้านขึ้นชื่อของชุมชนในจังหวัดแพร่ที่ใช้น้ำผลไม้เป็นส่วนผสมคือข้อใด?",
-        options: ["ข้าวหลาม", "ข้าวแต๋นน้ำแตงโม", "ขนมชั้น"],
+        question: "แหล่งผลิตเกลือสินเธาว์ภูเขาอันขึ้นชื่อของจังหวัดน่าน อยู่ที่อำเภอใด?",
+        options: ["อำเภอแม่สาย", "อำเภอบ่อเกลือ", "อำเภอลับแล"],
         answerIndex: 1
       },
       {
         id: "q3",
-        question: "เมนูอาหารพื้นถิ่นเลื่องชื่อในจังหวัดแพร่ คู่กับย่านกาดกองเก่าคือเมนูใด?",
-        options: ["ข้าวพันผัก", "ปลาส้ม", "ขนมเส้นน้ำย้อย"],
-        answerIndex: 2
-      },
-      {
-        id: "q4",
-        question: "แหล่งผลิตเกลือสินเธาว์ภูเขาอันขึ้นชื่อของจังหวัดน่าน อยู่ที่อำเภอใด?",
-        options: ["อำเภอบ่อเกลือ", "อำเภอแม่สาย", "อำเภอลับแล"],
-        answerIndex: 0
-      },
-      {
-        id: "q5",
-        question: "กาแฟและผลไม้ขึ้นชื่อของจังหวัดน่านในเส้นทางที่ ๑ คือข้อใด?",
-        options: ["ชาอัสสัม และสับปะรดภูแล", "กาแฟดอยมณีพฤกษ์ และส้มสีทองน่าน", "ลำไยสีทอง และข้าวแต๋น"],
-        answerIndex: 1
-      },
-      {
-        id: "q6",
         question: "ในเส้นทางที่ ๒ เมนูต้นตำรับล้านนาคู่กับ 'ไส้อั่ว' ของจังหวัดเชียงใหม่คือเมนูใด?",
         options: ["ส้มตำ", "หมี่กะทิ", "ข้าวซอย"],
         answerIndex: 2
       },
       {
+        id: "q4",
+        question: "ผลไม้ที่เป็นสินค้าสิ่งบ่งชี้ทางภูมิศาสตร์ (GI) ขึ้นชื่อของจังหวัดลำพูนคือข้อใด?",
+        options: ["ลำไยสีทอง", "สับปะรดภูแล", "ส้มสีทองน่าน"],
+        answerIndex: 0
+      },
+      {
+        id: "q5",
+        question: "หัตถกรรมเอกลักษณ์คู่สำรับอาหารเหนือจากจังหวัดลำปางคือสิ่งใด?",
+        options: ["เครื่องปั้นดินเผาด่านเกวียน", "ชามตราไก่", "กระติบข้าวเหนียว"],
+        answerIndex: 1
+      },
+      {
+        id: "q6",
+        question: "บนดอยแม่สลอง จังหวัดเชียงราย เป็นแหล่งปลูกชาสายพันธุ์ใดที่ขึ้นชื่อ?",
+        options: ["ชาเขียวญี่ปุ่นมัทฉะ", "ชาชักปักษ์ใต้", "ชาอัสสัม"],
+        answerIndex: 2
+      },
+      {
         id: "q7",
-        question: "วัตถุดิบเกษตรอินทรีย์โครงการหลวงจากจังหวัดเชียงใหม่ที่ระบุในแผนที่คือข้อใด?",
-        options: ["มะเขือเทศราชินี และผักเมืองหนาว", "ทุเรียนหลง-หลิน", "ถั่วเน่าแผ่น"],
+        question: "ผลิตภัณฑ์ขึ้นชื่อจากชุมชนประมงพื้นบ้าน จังหวัดพะเยา คือข้อใด?",
+        options: ["ปลาส้มกว๊านพะเยา", "ปลาทูแม่กลอง", "ปลาร้าบอง"],
         answerIndex: 0
       },
       {
         id: "q8",
-        question: "ผลไม้ที่เป็นสินค้าสิ่งบ่งชี้ทางภูมิศาสตร์ (GI) ขึ้นชื่อของจังหวัดลำพูนคือข้อใด?",
-        options: ["สับปะรดภูแล", "ลำไยสีทอง", "ส้มสีทองน่าน"],
+        question: "วัตถุดิบพื้นถิ่นจากภูมิปัญญาการแปรรูปและวัฒนธรรมอาหารไทใหญ่ จังหวัดแม่ฮ่องสอน คือข้อใด?",
+        options: ["พริกลาบ", "ถั่วเน่าแผ่น", "กะปิเคย"],
         answerIndex: 1
       },
       {
         id: "q9",
-        question: "หัตถกรรมเอกลักษณ์คู่สำรับอาหารเหนือจากจังหวัดลำปางคือสิ่งใด?",
-        options: ["เครื่องปั้นดินเผาด่านเกวียน", "กระติบข้าวเหนียว", "ชามตราไก่"],
-        answerIndex: 2
-      },
-      {
-        id: "q10",
-        question: "บนดอยแม่สลอง จังหวัดเชียงราย เป็นแหล่งปลูกชาสายพันธุ์ใดที่ขึ้นชื่อ?",
-        options: ["ชาอัสสัม", "ชาเขียวญี่ปุ่นมัทฉะ", "ชาชักปักษ์ใต้"],
-        answerIndex: 0
-      },
-      {
-        id: "q11",
-        question: "ผลไม้รสชาติหวานกรอบขึ้นชื่อของจังหวัดเชียงรายในเส้นทางที่ ๓ คือข้อใด?",
-        options: ["ลำไยสีทอง", "สับปะรดภูแล", "ทุเรียนหลินลับแล"],
-        answerIndex: 1
-      },
-      {
-        id: "q12",
-        question: "ผลิตภัณฑ์ขึ้นชื่อจากชุมชนประมงพื้นบ้าน จังหวัดพะเยา คือข้อใด?",
-        options: ["ปลาทูแม่กลอง", "ปลาร้าบอง", "ปลาส้มกว๊านพะเยา"],
-        answerIndex: 2
-      },
-      {
-        id: "q13",
-        question: "วัตถุดิบพื้นถิ่นจากภูมิปัญญาการแปรรูปและวัฒนธรรมอาหารไทใหญ่ จังหวัดแม่ฮ่องสอน คือข้อใด?",
-        options: ["ถั่วเน่าแผ่น", "พริกลาบ", "กะปิเคย"],
-        answerIndex: 0
-      },
-      {
-        id: "q14",
         question: "ผลไม้ GI ชื่อดังของเมืองลับแล จังหวัดอุตรดิตถ์ ในเส้นทางที่ ๔ คือข้อใด?",
-        options: ["ส้มสีทอง", "ทุเรียนหลง-หลินลับแล", "สับปะรดภูแล"],
-        answerIndex: 1
-      },
-      {
-        id: "q15",
-        question: "อาหารพื้นบ้านเอกลักษณ์ของจังหวัดอุตรดิตถ์ในเส้นทางที่ ๔ คือเมนูใด?",
-        options: ["ข้าวซอยไก่", "ขนมเส้นน้ำเงี้ยว", "ข้าวพันผัก"],
+        options: ["ส้มสีทอง", "สับปะรดภูแล", "ทุเรียนหลง-หลินลับแล"],
         answerIndex: 2
       }
     ];
@@ -622,7 +590,6 @@
     let activeZoneId = null;
     let currentTab = 1;
 
-    // ฟังก์ชันสุ่มอาเรย์แบบ Fisher-Yates
     function shuffleArray(arr) {
       const copy = [...arr];
       for (let i = copy.length - 1; i > 0; i--) {
@@ -632,17 +599,18 @@
       return copy;
     }
 
-    // คืนค่ารายการคำถาม 3 ข้อที่สุ่มไว้เฉพาะผู้เล่นคนนี้
     function getUserQuizQuestions() {
       if (!currentUser) return [];
-      if (!Array.isArray(currentUser.assignedQuizIds) || currentUser.assignedQuizIds.length !== CONFIG.quizQuestionsPerUser) {
-        const picked = shuffleArray(QUIZ_BANK).slice(0, CONFIG.quizQuestionsPerUser);
-        currentUser.assignedQuizIds = picked.map(q => q.id);
-        saveLocalUser(currentUser);
-      }
-      return currentUser.assignedQuizIds
+      let valid = (currentUser.assignedQuizIds || [])
         .map(id => QUIZ_BANK.find(q => q.id === id))
         .filter(Boolean);
+
+      if (valid.length !== CONFIG.quizQuestionsPerUser) {
+        valid = shuffleArray(QUIZ_BANK).slice(0, CONFIG.quizQuestionsPerUser);
+        currentUser.assignedQuizIds = valid.map(q => q.id);
+        saveLocalUser(currentUser);
+      }
+      return valid;
     }
 
     function hoverNavTab(step) {
@@ -946,7 +914,6 @@
         return;
       }
 
-      // สุ่มชุดคำถาม 3 ข้อเฉพาะสำหรับคนนี้ทันทีตั้งแต่ลงทะเบียน
       const pickedQuiz = shuffleArray(QUIZ_BANK).slice(0, CONFIG.quizQuestionsPerUser);
 
       const newUser = {
@@ -1130,7 +1097,6 @@
         return;
       }
 
-      // ถ้ามีคำตอบที่เคยเลือกค้างไว้ในหน้านี้ ไม่ต้องล้างทับโดยไม่จำเป็น
       if (container.dataset.renderedFor === (currentUser.assignedQuizIds || []).join(",")) {
         return;
       }
