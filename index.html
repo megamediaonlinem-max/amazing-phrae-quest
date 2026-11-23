@@ -9,6 +9,10 @@
   <style>
     body { font-family: 'Prompt', sans-serif; background-color: #faf5ff; }
     .tab-active { background-color: #6b21a8 !important; color: #ffffff !important; border-color: #6b21a8 !important; }
+    .nav-img-active {
+      box-shadow: 0 0 0 2.5px #f59e0b, 0 4px 12px rgba(107, 33, 168, 0.35);
+      background-color: rgba(250, 204, 21, 0.14);
+    }
     .pin-pulse { animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
     @keyframes pulse-ring {
       0% { transform: translate(-50%, -50%) scale(0.95); box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.9); }
@@ -70,7 +74,7 @@
   <!-- ========================================== -->
   <div id="app-wrapper" class="hidden pb-20">
 
-   <!-- Header Image Banner (พื้นหลังสีม่วงไล่เฉด) -->
+    <!-- Header Image Banner (พื้นหลังสีม่วงไล่เฉด) -->
     <header class="bg-gradient-to-r from-purple-950 via-purple-800 to-fuchsia-900 shadow-md sticky top-0 z-40 border-b border-purple-700">
       <div class="max-w-xl mx-auto relative bg-gradient-to-b from-purple-900 via-purple-800 to-purple-950">
         <img
@@ -120,30 +124,75 @@
     </header>
 
     <!-- Main Container -->
-    <main class="max-w-xl mx-auto px-4 pt-4">
+    <main class="max-w-xl mx-auto px-3 sm:px-4 pt-3">
 
-      <!-- Navigation Tabs -->
-      <nav class="grid grid-cols-5 gap-1.5 mb-5 text-center text-[11px] font-medium">
-        <button type="button" onclick="switchTab(1)" id="tab-btn-1" class="tab-btn py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm flex flex-col items-center gap-1 transition">
-          <span id="status-icon-1">1️⃣</span>
-          <span>ลงทะเบียน</span>
-        </button>
-        <button type="button" onclick="switchTab(2)" id="tab-btn-2" class="tab-btn py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm flex flex-col items-center gap-1 transition">
-          <span id="status-icon-2">🗺️</span>
-          <span>แผนที่งาน</span>
-        </button>
-        <button type="button" onclick="switchTab(3)" id="tab-btn-3" class="tab-btn py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm flex flex-col items-center gap-1 transition">
-          <span id="status-icon-3">❓</span>
-          <span>Quiz</span>
-        </button>
-        <button type="button" onclick="switchTab(4)" id="tab-btn-4" class="tab-btn py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm flex flex-col items-center gap-1 transition">
-          <span id="status-icon-4">📸</span>
-          <span>แชร์ภาพ</span>
-        </button>
-        <button type="button" onclick="switchTab(5)" id="tab-btn-5" class="tab-btn py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm flex flex-col items-center gap-1 transition">
-          <span id="status-icon-5">📘</span>
-          <span>E-Book</span>
-        </button>
+      <!-- ========================================== -->
+      <!-- IMAGE NAVIGATION BAR (ปุ่มไอคอน 6 ปุ่มตามภาพ) -->
+      <!-- ========================================== -->
+      <nav class="mb-4">
+        <div id="nav-image-container" class="bg-white rounded-2xl shadow-sm border border-purple-100 p-1 sm:p-1.5">
+          <div class="relative w-full overflow-hidden rounded-xl select-none" style="aspect-ratio: 100 / 19.8;">
+            <img
+              id="nav-buttons-img"
+              src="./nav-buttons.png"
+              alt="เมนูนำทางกิจกรรม"
+              class="w-full h-auto block pointer-events-none"
+              style="margin-top: -17.3%;"
+              onerror="handleNavImageError(this)"
+            />
+
+            <!-- ปุ่ม 1: หน้าแรก -->
+            <button type="button" onclick="backToLanding()" title="กลับหน้าแรก"
+              style="left: 1.2%; width: 16.2%; top: 0; height: 100%;"
+              class="absolute rounded-xl cursor-pointer hover:bg-purple-500/10 active:scale-95 transition focus:outline-none">
+            </button>
+
+            <!-- ปุ่ม 2: ลงทะเบียน -->
+            <button type="button" onclick="switchTab(1)" id="tab-btn-1" title="ลงทะเบียน"
+              style="left: 17.7%; width: 16.1%; top: 0; height: 100%;"
+              class="tab-btn absolute rounded-xl cursor-pointer hover:bg-purple-500/10 active:scale-95 transition focus:outline-none">
+              <span id="status-icon-1" class="hidden absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center shadow">✓</span>
+            </button>
+
+            <!-- ปุ่ม 3: แผนผังงาน -->
+            <button type="button" onclick="switchTab(2)" id="tab-btn-2" title="แผนผังงาน"
+              style="left: 34.1%; width: 16.1%; top: 0; height: 100%;"
+              class="tab-btn absolute rounded-xl cursor-pointer hover:bg-purple-500/10 active:scale-95 transition focus:outline-none">
+              <span id="status-icon-2" class="hidden absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center shadow">✓</span>
+            </button>
+
+            <!-- ปุ่ม 4: Quiz -->
+            <button type="button" onclick="switchTab(3)" id="tab-btn-3" title="Quiz"
+              style="left: 50.4%; width: 16.1%; top: 0; height: 100%;"
+              class="tab-btn absolute rounded-xl cursor-pointer hover:bg-purple-500/10 active:scale-95 transition focus:outline-none">
+              <span id="status-icon-3" class="hidden absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center shadow">✓</span>
+            </button>
+
+            <!-- ปุ่ม 5: แชร์ภาพ -->
+            <button type="button" onclick="switchTab(4)" id="tab-btn-4" title="แชร์ภาพ"
+              style="left: 66.6%; width: 16.1%; top: 0; height: 100%;"
+              class="tab-btn absolute rounded-xl cursor-pointer hover:bg-purple-500/10 active:scale-95 transition focus:outline-none">
+              <span id="status-icon-4" class="hidden absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center shadow">✓</span>
+            </button>
+
+            <!-- ปุ่ม 6: E-Book -->
+            <button type="button" onclick="switchTab(5)" id="tab-btn-5" title="E-Book"
+              style="left: 82.8%; width: 16.1%; top: 0; height: 100%;"
+              class="tab-btn absolute rounded-xl cursor-pointer hover:bg-purple-500/10 active:scale-95 transition focus:outline-none">
+              <span id="status-icon-5" class="absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-slate-700/85 text-white text-[9px] flex items-center justify-center shadow">🔒</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Fallback Text Buttons (แสดงเฉพาะกรณีไม่พบไฟล์ nav-buttons.png) -->
+        <div id="nav-fallback" class="hidden grid grid-cols-6 gap-1 text-center text-[10px] font-medium">
+          <button type="button" onclick="backToLanding()" class="py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm">🏠 หน้าแรก</button>
+          <button type="button" onclick="switchTab(1)" id="fb-btn-1" class="fb-btn py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm">ลงทะเบียน</button>
+          <button type="button" onclick="switchTab(2)" id="fb-btn-2" class="fb-btn py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm">แผนผังงาน</button>
+          <button type="button" onclick="switchTab(3)" id="fb-btn-3" class="fb-btn py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm">Quiz</button>
+          <button type="button" onclick="switchTab(4)" id="fb-btn-4" class="fb-btn py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm">แชร์ภาพ</button>
+          <button type="button" onclick="switchTab(5)" id="fb-btn-5" class="fb-btn py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm">E-Book</button>
+        </div>
       </nav>
 
       <!-- ========================================== -->
@@ -424,7 +473,7 @@
     <img id="map-zoom-img" src="./map-phrae.jpg" alt="แผนผังขยายเต็มจอ" class="max-w-full max-h-[85vh] object-contain rounded-lg" />
   </div>
 
-  <!-- ADMIN MODAL (Real-time จาก Google Sheets) -->
+  <!-- ADMIN MODAL -->
   <div id="admin-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
       <div class="px-5 py-4 border-b flex items-center justify-between bg-purple-50">
@@ -612,6 +661,16 @@
       }
     }
 
+    function handleNavImageError(img) {
+      if (!img.dataset.triedJpg) {
+        img.dataset.triedJpg = "1";
+        img.src = "./nav-buttons.jpg";
+      } else {
+        document.getElementById("nav-image-container").classList.add("hidden");
+        document.getElementById("nav-fallback").classList.remove("hidden");
+      }
+    }
+
     function handleRegImageError(img) {
       if (!img.dataset.triedPng) {
         img.dataset.triedPng = "1";
@@ -727,8 +786,12 @@
       document.querySelectorAll(".page-section").forEach(el => el.classList.add("hidden"));
       document.getElementById(`page-${step}`).classList.remove("hidden");
 
-      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("tab-active"));
-      document.getElementById(`tab-btn-${step}`).classList.add("tab-active");
+      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("nav-img-active"));
+      document.getElementById(`tab-btn-${step}`).classList.add("nav-img-active");
+
+      document.querySelectorAll(".fb-btn").forEach(btn => btn.classList.remove("tab-active"));
+      const fbBtn = document.getElementById(`fb-btn-${step}`);
+      if (fbBtn) fbBtn.classList.add("tab-active");
 
       if (step === 5) renderRewardPage();
     }
@@ -755,13 +818,16 @@
 
     function refreshUI(fetchServer = false) {
       let completed = 0;
-      const icons = ["1️⃣", "🗺️", "❓", "📸"];
       for (let i = 1; i <= 4; i++) {
         const done = isMissionDone(i);
         if (done) completed++;
-        document.getElementById(`status-icon-${i}`).textContent = done ? "✅" : icons[i - 1];
+        const badge = document.getElementById(`status-icon-${i}`);
+        if (badge) badge.classList.toggle("hidden", !done);
       }
-      document.getElementById("status-icon-5").textContent = completed === 4 ? "📘" : "🔒";
+
+      const lockBadge = document.getElementById("status-icon-5");
+      if (lockBadge) lockBadge.classList.toggle("hidden", completed === 4);
+
       document.getElementById("ui-progress-text").textContent = `${completed} / 4 สำเร็จ`;
       document.getElementById("ui-progress-bar").style.width = `${(completed / 4) * 100}%`;
 
