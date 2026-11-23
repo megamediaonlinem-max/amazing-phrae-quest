@@ -85,23 +85,19 @@
           <p class="text-[11px] text-purple-100">Amazing PHRAE • PHRAE Gastronomy Tourism</p>
         </div>
 
-        <!-- ปุ่มมุมซ้ายล่าง -->
+        <!-- ปุ่มกลับหน้าแรก มุมซ้ายล่าง -->
         <button type="button" onclick="backToLanding()" title="กลับหน้าแรก"
           class="absolute bottom-1.5 left-2 px-2.5 py-0.5 rounded-full bg-black/45 hover:bg-black/65 border border-amber-300/40 text-white text-[10px] sm:text-[11px] font-medium flex items-center gap-1 shadow backdrop-blur-sm">
           <span>🏠</span>
           <span>หน้าแรก</span>
         </button>
 
-        <!-- ยอดผู้ร่วมกิจกรรม & ปุ่มแอดมิน มุมขวาล่าง -->
-        <div class="absolute bottom-1.5 right-2 flex items-center gap-1">
+        <!-- ยอดผู้ร่วมกิจกรรม มุมขวาล่าง (แสดงเฉพาะจำนวนรวม) -->
+        <div class="absolute bottom-1.5 right-2">
           <div class="bg-black/45 backdrop-blur-sm border border-amber-300/40 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] text-white flex items-center gap-1 shadow">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-dot" title="อัปเดต Real-time"></span>
             <span>ร่วมแล้ว <strong id="ui-total-participants" class="text-amber-300">-</strong> คน</span>
           </div>
-          <button type="button" onclick="openAdminModal()" title="ระบบหลังบ้าน (เจ้าหน้าที่)"
-            class="w-6 h-6 rounded-full bg-black/45 hover:bg-black/65 border border-amber-300/40 text-white text-[11px] flex items-center justify-center shadow backdrop-blur-sm">
-            ⚙️
-          </button>
         </div>
       </div>
 
@@ -122,13 +118,10 @@
     <!-- Main Container -->
     <main class="max-w-xl mx-auto px-3 sm:px-4 pt-3">
 
-      <!-- ========================================== -->
       <!-- IMAGE NAVIGATION BAR (ปกติสีขาว / ชี้เมาส์หรือหน้าปัจจุบันสีม่วง) -->
-      <!-- ========================================== -->
       <nav class="mb-4">
         <div id="nav-image-container" class="bg-white rounded-2xl shadow-sm border border-purple-100 px-1 py-1 overflow-hidden">
           <div class="relative w-full select-none" style="margin-top: -10.5%; margin-bottom: -10.5%;">
-            <!-- ชั้นที่ 1: ภาพปุ่มสีขาว (สถานะปกติ) -->
             <img
               id="nav-white-img"
               src="./nav-white.png"
@@ -136,8 +129,6 @@
               class="w-full h-auto block pointer-events-none"
               onerror="handleNavWhiteError(this)"
             />
-
-            <!-- ชั้นที่ 2: ภาพปุ่มสีม่วง (แสดงเฉพาะปุ่มของหน้าที่กำลังเปิดอยู่) -->
             <img
               id="nav-purple-active"
               src="./nav-purple.png"
@@ -146,8 +137,6 @@
               style="clip-path: inset(0% 76.65% 0% 1.5%);"
               onerror="handleNavPurpleError(this)"
             />
-
-            <!-- ชั้นที่ 3: ภาพปุ่มสีม่วง (แสดงเมื่อเอาเมาส์ชี้) -->
             <img
               id="nav-purple-hover"
               src="./nav-purple.png"
@@ -155,7 +144,6 @@
               class="absolute inset-0 w-full h-full object-fill pointer-events-none opacity-0 transition-opacity duration-150"
             />
 
-            <!-- ปุ่มกด 5 ช่องวางตรงกับปุ่มในภาพ -->
             <!-- 1. ลงทะเบียน -->
             <button type="button" onclick="switchTab(1)" onmouseenter="hoverNavTab(1)" onmouseleave="clearHoverNavTab()" id="tab-btn-1" title="ลงทะเบียน"
               style="left: 1.8%; width: 21.3%; top: 35%; height: 28%;"
@@ -193,7 +181,6 @@
           </div>
         </div>
 
-        <!-- Fallback Text Buttons (แสดงเฉพาะกรณีไม่พบไฟล์ภาพปุ่ม) -->
         <div id="nav-fallback" class="hidden grid grid-cols-5 gap-1.5 text-center text-[11px] font-medium">
           <button type="button" onclick="switchTab(1)" id="fb-btn-1" class="fb-btn py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm">ลงทะเบียน</button>
           <button type="button" onclick="switchTab(2)" id="fb-btn-2" class="fb-btn py-2 px-1 rounded-xl border bg-white text-slate-700 shadow-sm">แผนผังงาน</button>
@@ -203,9 +190,7 @@
         </div>
       </nav>
 
-      <!-- ========================================== -->
       <!-- PAGE 1: หน้าลงทะเบียน -->
-      <!-- ========================================== -->
       <section id="page-1" class="page-section">
         <div id="register-graphic-box" class="relative w-full max-w-md mx-auto rounded-2xl overflow-hidden shadow-lg border border-purple-200 bg-purple-950">
           <img
@@ -217,71 +202,37 @@
           />
 
           <form id="register-form" onsubmit="handleRegister(event)" class="absolute inset-0">
-            <!-- 1. ชื่อ-นามสกุล -->
-            <input
-              type="text"
-              id="reg-name"
-              required
-              placeholder="กรอกชื่อ - นามสกุล"
+            <input type="text" id="reg-name" required placeholder="กรอกชื่อ - นามสกุล"
               style="top: 46.7%; left: 27.7%; width: 54.2%; height: 3.4%;"
-              class="absolute reg-overlay-input bg-transparent focus:bg-white/95 text-slate-800 rounded-full outline-none focus:ring-2 focus:ring-purple-600"
-            />
+              class="absolute reg-overlay-input bg-transparent focus:bg-white/95 text-slate-800 rounded-full outline-none focus:ring-2 focus:ring-purple-600" />
 
-            <!-- 2. เบอร์โทรศัพท์ -->
-            <input
-              type="tel"
-              id="reg-phone"
-              required
-              pattern="[0-9]{9,10}"
-              placeholder="08xxxxxxxx"
+            <input type="tel" id="reg-phone" required pattern="[0-9]{9,10}" placeholder="08xxxxxxxx"
               style="top: 53.4%; left: 27.7%; width: 54.2%; height: 3.4%;"
-              class="absolute reg-overlay-input bg-transparent focus:bg-white/95 text-slate-800 rounded-full outline-none focus:ring-2 focus:ring-purple-600"
-            />
+              class="absolute reg-overlay-input bg-transparent focus:bg-white/95 text-slate-800 rounded-full outline-none focus:ring-2 focus:ring-purple-600" />
 
-            <!-- 3. อีเมล -->
-            <input
-              type="email"
-              id="reg-email"
-              required
-              placeholder="example@email.com"
+            <input type="email" id="reg-email" required placeholder="example@email.com"
               style="top: 60.1%; left: 27.7%; width: 54.2%; height: 3.4%;"
-              class="absolute reg-overlay-input bg-transparent focus:bg-white/95 text-slate-800 rounded-full outline-none focus:ring-2 focus:ring-purple-600"
-            />
+              class="absolute reg-overlay-input bg-transparent focus:bg-white/95 text-slate-800 rounded-full outline-none focus:ring-2 focus:ring-purple-600" />
 
-            <!-- 4. ประเภทผู้เข้าร่วม -->
-            <select
-              id="reg-group"
-              required
+            <select id="reg-group" required
               style="top: 67.4%; left: 27.7%; width: 54.2%; height: 3.4%; padding-right: 28px;"
-              class="absolute reg-overlay-input appearance-none bg-transparent focus:bg-white/95 text-slate-800 rounded-full outline-none focus:ring-2 focus:ring-purple-600 cursor-pointer"
-            >
+              class="absolute reg-overlay-input appearance-none bg-transparent focus:bg-white/95 text-slate-800 rounded-full outline-none focus:ring-2 focus:ring-purple-600 cursor-pointer">
               <option value="นักท่องเที่ยว / บุคคลทั่วไป">นักท่องเที่ยว / บุคคลทั่วไป</option>
               <option value="ประชาชนในพื้นที่จังหวัดแพร่">ประชาชนในพื้นที่จังหวัดแพร่</option>
               <option value="นักเรียน / นักศึกษา">นักเรียน / นักศึกษา</option>
               <option value="ผู้ประกอบการ / สื่อมวลชน">ผู้ประกอบการ / สื่อมวลชน</option>
             </select>
 
-            <!-- 5. PDPA Checkbox -->
-            <input
-              type="checkbox"
-              id="reg-pdpa"
-              required
+            <input type="checkbox" id="reg-pdpa" required
               style="top: 72.5%; left: 18.7%; width: 4.4%; height: 2.9%;"
-              class="peer absolute appearance-none bg-transparent checked:bg-purple-700/90 rounded cursor-pointer outline-none focus:ring-2 focus:ring-purple-500"
-            />
+              class="peer absolute appearance-none bg-transparent checked:bg-purple-700/90 rounded cursor-pointer outline-none focus:ring-2 focus:ring-purple-500" />
             <span
               style="top: 72.5%; left: 18.7%; width: 4.4%; height: 2.9%;"
-              class="pointer-events-none absolute flex items-center justify-center text-white font-bold text-xs sm:text-sm opacity-0 peer-checked:opacity-100 transition"
-            >✓</span>
+              class="pointer-events-none absolute flex items-center justify-center text-white font-bold text-xs sm:text-sm opacity-0 peer-checked:opacity-100 transition">✓</span>
 
-            <!-- 6. ปุ่ม ลงทะเบียน > -->
-            <button
-              type="submit"
-              id="btn-register-submit"
-              aria-label="ลงทะเบียน"
+            <button type="submit" id="btn-register-submit" aria-label="ลงทะเบียน"
               style="top: 80.8%; left: 24.2%; width: 51.6%; height: 7.5%;"
-              class="absolute rounded-full cursor-pointer bg-transparent hover:bg-white/15 active:scale-95 transition focus:outline-none focus:ring-4 focus:ring-amber-300/60"
-            ></button>
+              class="absolute rounded-full cursor-pointer bg-transparent hover:bg-white/15 active:scale-95 transition focus:outline-none focus:ring-4 focus:ring-amber-300/60"></button>
 
             <div id="reg-loading-pill" class="hidden absolute left-1/2 -translate-x-1/2 bottom-3 bg-purple-900/90 text-amber-300 text-xs px-4 py-1.5 rounded-full shadow-lg">
               ⏳ กำลังบันทึกข้อมูล...
@@ -429,7 +380,6 @@
 
       <!-- PAGE 5: ขอบคุณที่ร่วมสนุก & ดาวน์โหลด E-Book (แบบภาพกราฟิกเต็มใบ) -->
       <section id="page-5" class="page-section hidden">
-        <!-- กรณีภารกิจยังไม่ครบ 4 ขั้นตอน -->
         <div id="reward-locked" class="bg-white rounded-2xl shadow-sm border border-purple-100 p-5 text-center py-8">
           <div class="text-5xl mb-3">🔒</div>
           <h2 class="text-xl font-bold text-slate-800 mb-2">ยังปลดล็อก E-Book ไม่ได้</h2>
@@ -440,7 +390,6 @@
           </button>
         </div>
 
-        <!-- กรณีภารกิจครบ 4 ขั้นตอนแล้ว (แสดงภาพกราฟิก + ปุ่มกดดาวน์โหลด E-Book) -->
         <div id="reward-unlocked" class="hidden">
           <div id="ebook-graphic-box" class="relative w-full max-w-md mx-auto rounded-2xl overflow-hidden shadow-lg border border-purple-200 bg-white">
             <img
@@ -451,7 +400,6 @@
               onerror="handleEbookImageError(this)"
             />
 
-            <!-- ปุ่มกดวางทับตำแหน่ง "ดาวน์โหลด E-Book" สีทองในภาพ -->
             <button
               id="ebook-download-hitbox"
               type="button"
@@ -461,7 +409,6 @@
               class="absolute rounded-full cursor-pointer bg-transparent hover:bg-white/15 active:scale-95 transition focus:outline-none focus:ring-4 focus:ring-amber-300/70"
             ></button>
 
-            <!-- Fallback กรณีไม่พบไฟล์ภาพ ebook-phrae.jpg -->
             <div id="ebook-img-fallback" class="hidden p-6 text-center space-y-4">
               <div class="text-4xl">🎉</div>
               <h2 class="text-xl font-bold text-purple-900">ขอบคุณที่ร่วมสนุกกับกิจกรรม</h2>
@@ -491,68 +438,6 @@
     <img id="map-zoom-img" src="./map-phrae.jpg" alt="แผนผังขยายเต็มจอ" class="max-w-full max-h-[85vh] object-contain rounded-lg" />
   </div>
 
-  <!-- ADMIN MODAL -->
-  <div id="admin-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
-      <div class="px-5 py-4 border-b flex items-center justify-between bg-purple-50">
-        <div class="flex items-center gap-2">
-          <h3 class="font-bold text-lg text-purple-900">📊 ระบบหลังบ้าน (Real-time)</h3>
-          <span id="adm-sync-status" class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-medium">กำลังเชื่อมต่อ...</span>
-        </div>
-        <button type="button" onclick="closeAdminModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
-      </div>
-
-      <div class="p-5 overflow-y-auto space-y-4">
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div class="p-3 bg-purple-50 rounded-xl border border-purple-100">
-            <div class="text-xs text-purple-700">ลงทะเบียนทั้งหมด</div>
-            <div id="adm-total-reg" class="text-2xl font-bold text-purple-900">0</div>
-          </div>
-          <div class="p-3 bg-sky-50 rounded-xl border border-sky-100">
-            <div class="text-xs text-sky-600">ผ่าน Quiz แล้ว</div>
-            <div id="adm-total-quiz" class="text-2xl font-bold text-sky-900">0</div>
-          </div>
-          <div class="p-3 bg-amber-50 rounded-xl border border-amber-100">
-            <div class="text-xs text-amber-600">ทำครบทุกภารกิจ</div>
-            <div id="adm-total-complete" class="text-2xl font-bold text-amber-900">0</div>
-          </div>
-          <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-100">
-            <div class="text-xs text-emerald-600">โหลด E-Book แล้ว</div>
-            <div id="adm-total-ebook" class="text-2xl font-bold text-emerald-900">0</div>
-          </div>
-        </div>
-
-        <div class="flex flex-wrap gap-2 justify-between items-center">
-          <input type="text" id="adm-search" oninput="renderAdminTable()" placeholder="🔍 ค้นหาชื่อ, เบอร์โทร, อีเมล..."
-            class="px-3 py-1.5 border rounded-lg text-xs w-full sm:w-60 focus:ring-2 focus:ring-purple-500 focus:outline-none" />
-          <div class="flex gap-2">
-            <button type="button" onclick="fetchAdminLiveData()" class="px-3 py-1.5 bg-purple-700 hover:bg-purple-800 text-white text-xs font-semibold rounded-lg">
-              🔄 รีเฟรชทันที
-            </button>
-            <button type="button" onclick="exportCSV()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg">
-              ⬇️ Export CSV
-            </button>
-          </div>
-        </div>
-
-        <div class="border rounded-xl overflow-x-auto">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-slate-100 text-slate-600 border-b">
-              <tr>
-                <th class="p-2.5">ชื่อ - เบอร์โทร</th>
-                <th class="p-2.5">แผนที่/Quiz/แชร์</th>
-                <th class="p-2.5">ลิงก์โซเชียล</th>
-                <th class="p-2.5">สถานะภารกิจ</th>
-                <th class="p-2.5">E-Book</th>
-              </tr>
-            </thead>
-            <tbody id="adm-table-body" class="divide-y"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- JAVASCRIPT LOGIC -->
   <script>
     const CONFIG = {
@@ -564,13 +449,12 @@
       googleScriptUrl: "https://script.google.com/macros/s/AKfycbx1FnfK_DVkPxPs3AGzcSLLvZvdr1MxHcXeK4edzagSuOBVlG9QutfVTOCI2l0l3rfO/exec"
     };
 
-    // ขอบเขตสำหรับตัดแสดงปุ่มสีม่วงทีละปุ่มจากภาพ nav-purple.png (inset: top right bottom left)
     const NAV_CLIP_MAP = {
-      1: "inset(0% 76.65% 0% 1.5%)",   // ลงทะเบียน
-      2: "inset(0% 55.55% 0% 23.35%)", // แผนผังงาน
-      3: "inset(0% 40.45% 0% 44.45%)", // Quiz
-      4: "inset(0% 21.25% 0% 59.55%)", // แชร์ภาพ
-      5: "inset(0% 1.5% 0% 78.75%)"    // E-Book
+      1: "inset(0% 76.65% 0% 1.5%)",
+      2: "inset(0% 55.55% 0% 23.35%)",
+      3: "inset(0% 40.45% 0% 44.45%)",
+      4: "inset(0% 21.25% 0% 59.55%)",
+      5: "inset(0% 1.5% 0% 78.75%)"
     };
 
     const MAP_ZONES = [
@@ -652,7 +536,6 @@
     let currentUser = null;
     let activeZoneId = null;
     let currentTab = 1;
-    let adminLiveList = [];
 
     function hoverNavTab(step) {
       const hoverImg = document.getElementById("nav-purple-hover");
@@ -664,9 +547,7 @@
 
     function clearHoverNavTab() {
       const hoverImg = document.getElementById("nav-purple-hover");
-      if (hoverImg) {
-        hoverImg.style.opacity = "0";
-      }
+      if (hoverImg) hoverImg.style.opacity = "0";
     }
 
     function enterApp() {
@@ -741,7 +622,8 @@
         document.getElementById("map-img-error").classList.remove("hidden");
       }
     }
-function handleEbookImageError(img) {
+
+    function handleEbookImageError(img) {
       if (!img.dataset.triedPng) {
         img.dataset.triedPng = "1";
         img.src = "./ebook-phrae.png";
@@ -751,6 +633,7 @@ function handleEbookImageError(img) {
         document.getElementById("ebook-img-fallback").classList.remove("hidden");
       }
     }
+
     function getLocalDB() {
       return JSON.parse(localStorage.getItem(DB_KEY) || "[]");
     }
@@ -822,12 +705,7 @@ function handleEbookImageError(img) {
       switchTab(currentUser ? getNextMissionStep() : 1);
 
       setInterval(() => {
-        if (!document.hidden) {
-          loadStatsFromServer();
-          if (!document.getElementById("admin-modal").classList.contains("hidden")) {
-            fetchAdminLiveData(true);
-          }
-        }
+        if (!document.hidden) loadStatsFromServer();
       }, 8000);
 
       document.addEventListener("visibilitychange", () => {
@@ -845,7 +723,6 @@ function handleEbookImageError(img) {
       document.querySelectorAll(".page-section").forEach(el => el.classList.add("hidden"));
       document.getElementById(`page-${step}`).classList.remove("hidden");
 
-      // เปลี่ยนปุ่มของหน้าปัจจุบันเป็นสีม่วง
       const activePurple = document.getElementById("nav-purple-active");
       if (activePurple && NAV_CLIP_MAP[step]) {
         activePurple.style.clipPath = NAV_CLIP_MAP[step];
@@ -938,7 +815,6 @@ function handleEbookImageError(img) {
       const email = document.getElementById("reg-email").value.trim();
       const group = document.getElementById("reg-group").value;
 
-      // ตรวจสอบเฉพาะข้อมูลในเครื่องของตัวเองเท่านั้น (ไม่ดึงข้อมูลส่วนตัวจาก Server)
       const existing = getLocalDB().find(u => u.phone === phone);
 
       if (existing) {
@@ -1167,7 +1043,8 @@ function handleEbookImageError(img) {
 
       lockedEl.classList.add("hidden");
       unlockedEl.classList.remove("hidden");
-      document.getElementById("ui-reward-owner").textContent = currentUser.name;
+      const ownerEl = document.getElementById("ui-reward-owner");
+      if (ownerEl) ownerEl.textContent = currentUser.name;
 
       const dlBadge = document.getElementById("ui-ebook-downloaded-badge");
       if (currentUser.ebookDownloaded) dlBadge.classList.remove("hidden");
@@ -1181,154 +1058,6 @@ function handleEbookImageError(img) {
         await persistUser(currentUser);
         renderRewardPage();
       }
-    }
-
-    let sessionAdminPin = "";
-
-    async function openAdminModal() {
-      const pin = prompt("กรุณากรอกรหัส PIN ผู้ดูแลระบบ");
-      if (pin === null || !pin.trim()) return;
-      sessionAdminPin = pin.trim();
-
-      if (!CONFIG.googleScriptUrl) {
-        if (sessionAdminPin !== "1234") {
-          alert("รหัสผ่านไม่ถูกต้อง");
-          return;
-        }
-        document.getElementById("admin-modal").classList.remove("hidden");
-        fetchAdminLiveData();
-        return;
-      }
-
-      const ok = await fetchAdminLiveData(false);
-      if (ok) {
-        document.getElementById("admin-modal").classList.remove("hidden");
-      }
-    }
-
-    function closeAdminModal() {
-      sessionAdminPin = "";
-      document.getElementById("admin-modal").classList.add("hidden");
-    }
-
-    async function fetchAdminLiveData(silent = false) {
-      const statusBadge = document.getElementById("adm-sync-status");
-      if (!silent) statusBadge.textContent = "กำลังตรวจสอบสิทธิ์...";
-
-      if (!CONFIG.googleScriptUrl) {
-        adminLiveList = getLocalDB();
-        statusBadge.textContent = "LocalStorage";
-        updateAdminKPIs(adminLiveList);
-        renderAdminTable();
-        return true;
-      }
-
-      try {
-        const res = await fetch(CONFIG.googleScriptUrl, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ action: "admin_list", pin: sessionAdminPin })
-        });
-        const json = await res.json();
-
-        if (json.status === "unauthorized") {
-          sessionAdminPin = "";
-          document.getElementById("admin-modal").classList.add("hidden");
-          if (!silent) alert("❌ รหัส PIN ไม่ถูกต้อง");
-          return false;
-        }
-
-        if (json.status === "ok") {
-          adminLiveList = json.participants || [];
-          statusBadge.textContent = "🟢 Live (Google Sheet)";
-          statusBadge.className = "text-[11px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-medium";
-          updateAdminKPIs(adminLiveList);
-          renderAdminTable();
-          document.getElementById("ui-total-participants").textContent = adminLiveList.length.toLocaleString();
-          return true;
-        }
-
-        if (!silent) {
-          alert("⚠️ Google Sheet แจ้งเตือน: " + (json.message || JSON.stringify(json)) + "\n\n(หากขึ้นว่า Missing user phone ให้กลับไปกด Deploy > New version ใน Apps Script ครับ)");
-        }
-        return false;
-      } catch (err) {
-        statusBadge.textContent = "⚠️ เชื่อมต่อไม่ได้";
-        statusBadge.className = "text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-medium";
-        if (!silent) alert("⚠️ เชื่อมต่อ Google Sheet ไม่ได้: " + err.message);
-        return false;
-      }
-    }
-
-    function isUserCompleted(u) {
-      return (u.exploredZones || []).length >= CONFIG.minMapZonesToPass && u.quizPassed && Boolean(u.socialUrl);
-    }
-
-    function updateAdminKPIs(list) {
-      document.getElementById("adm-total-reg").textContent = list.length;
-      document.getElementById("adm-total-quiz").textContent = list.filter(u => u.quizPassed).length;
-      document.getElementById("adm-total-complete").textContent = list.filter(isUserCompleted).length;
-      document.getElementById("adm-total-ebook").textContent = list.filter(u => u.ebookDownloaded).length;
-    }
-
-    function renderAdminTable() {
-      const q = (document.getElementById("adm-search").value || "").toLowerCase().trim();
-      const filtered = adminLiveList.filter(u =>
-        !q ||
-        (u.name || "").toLowerCase().includes(q) ||
-        (u.phone || "").includes(q) ||
-        (u.email || "").toLowerCase().includes(q)
-      );
-
-      const tbody = document.getElementById("adm-table-body");
-      if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">ไม่พบข้อมูลผู้ร่วมกิจกรรม</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = filtered.map(u => {
-        const done = isUserCompleted(u);
-        return `
-          <tr class="hover:bg-slate-50">
-            <td class="p-2.5">
-              <div class="font-semibold">${u.name}</div>
-              <div class="text-[11px] text-slate-500">${u.phone}</div>
-            </td>
-            <td class="p-2.5">
-              🗺️ ${(u.exploredZones || []).length} | ❓ ${u.quizPassed ? 'ผ่าน' : '-'} | 📸 ${u.socialUrl ? 'ส่งแล้ว' : '-'}
-            </td>
-            <td class="p-2.5 max-w-[130px] truncate">
-              ${u.socialUrl ? `<a href="${u.socialUrl}" target="_blank" class="text-purple-700 underline">${u.socialPlatform || 'ดูโพสต์'}</a>` : '-'}
-            </td>
-            <td class="p-2.5">
-              ${done ? '<span class="text-emerald-600 font-semibold">✓ ครบ 4 ด่าน</span>' : '<span class="text-slate-400">กำลังทำ</span>'}
-            </td>
-            <td class="p-2.5">
-              ${u.ebookDownloaded ? '<span class="text-purple-700 font-semibold">📥 โหลดแล้ว</span>' : '-'}
-            </td>
-          </tr>
-        `;
-      }).join("");
-    }
-
-    function exportCSV() {
-      const list = adminLiveList.length ? adminLiveList : getLocalDB();
-      if (list.length === 0) return alert("ไม่มีข้อมูลสำหรับ Export");
-
-      const headers = ["ID", "ชื่อ", "เบอร์โทร", "อีเมล", "กลุ่ม", "จำนวนโซนแผนที่", "Quizผ่าน", "แพลตฟอร์ม", "ลิงก์โซเชียล", "ทำครบ4ด่าน", "โหลดE-Bookแล้ว", "เวลาลงทะเบียน"];
-      const rows = list.map(u => [
-        u.id, `"${u.name}"`, `"${u.phone}"`, `"${u.email}"`, `"${u.group}"`,
-        (u.exploredZones || []).length, u.quizPassed ? "Yes" : "No",
-        `"${u.socialPlatform || ""}"`, `"${u.socialUrl || ""}"`,
-        isUserCompleted(u) ? "Yes" : "No", u.ebookDownloaded ? "Yes" : "No", u.createdAt
-      ]);
-
-      const csvContent = "\uFEFF" + [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = `amazing_phrae_data_${new Date().toISOString().slice(0, 10)}.csv`;
-      link.click();
     }
   </script>
 </body>
