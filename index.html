@@ -742,7 +742,16 @@
         document.getElementById("map-img-error").classList.remove("hidden");
       }
     }
-
+function handleEbookImageError(img) {
+      if (!img.dataset.triedPng) {
+        img.dataset.triedPng = "1";
+        img.src = "./ebook-phrae.png";
+      } else {
+        img.style.display = "none";
+        document.getElementById("ebook-download-hitbox").classList.add("hidden");
+        document.getElementById("ebook-img-fallback").classList.remove("hidden");
+      }
+    }
     function getLocalDB() {
       return JSON.parse(localStorage.getItem(DB_KEY) || "[]");
     }
