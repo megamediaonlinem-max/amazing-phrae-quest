@@ -9,12 +9,6 @@
   <style>
     body { font-family: 'Prompt', sans-serif; background-color: #faf5ff; }
     .tab-active { background-color: #6b21a8 !important; color: #ffffff !important; border-color: #6b21a8 !important; }
-    .pin-pulse { animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
-    @keyframes pulse-ring {
-      0% { transform: translate(-50%, -50%) scale(0.92); box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.9); }
-      70% { transform: translate(-50%, -50%) scale(1.06); box-shadow: 0 0 0 10px rgba(250, 204, 21, 0); }
-      100% { transform: translate(-50%, -50%) scale(0.92); box-shadow: 0 0 0 0 rgba(250, 204, 21, 0); }
-    }
     .live-dot { animation: blink 1.5s infinite; }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     .start-glow { animation: btn-glow 2.2s infinite; }
@@ -218,41 +212,40 @@
       </section>
 
       <!-- ========================================== -->
-      <!-- PAGE 2: Digital Gastronomy Map (9 จังหวัด 4 เส้นทาง) -->
+      <!-- PAGE 2: Digital Gastronomy Map (กดเลือกจากข้อความชื่อจังหวัด) -->
       <!-- ========================================== -->
       <section id="page-2" class="page-section hidden bg-white rounded-2xl shadow-sm border border-purple-100 p-4 sm:p-5">
         <div class="mb-3 flex justify-between items-start gap-2">
           <div>
             <span class="inline-block px-2.5 py-0.5 bg-purple-100 text-purple-800 text-xs font-semibold rounded-full mb-1">ภารกิจที่ 2 • Digital Gastronomy Map</span>
             <h2 class="text-lg sm:text-xl font-bold text-slate-800">เส้นทางวัตถุดิบอาหารเหนือ 9 จังหวัด</h2>
-            <p class="text-xs text-slate-500">แตะที่หมุดบนแผนที่เพื่อสำรวจแหล่งวัตถุดิบเชฟบุ๊คและเช็กอินอย่างน้อย <span id="ui-map-target">2</span> จังหวัด</p>
+            <p class="text-xs text-slate-500">ดูเส้นทางจากแผนที่ แล้วกดเลือกชื่อจังหวัดด้านล่างเพื่ออ่านข้อมูลและเช็กอินอย่างน้อย <span id="ui-map-target">2</span> จังหวัด</p>
           </div>
           <span id="ui-map-count" class="px-2.5 py-1 bg-purple-100 text-purple-800 rounded-lg text-xs font-semibold shrink-0">0/2 จังหวัด</span>
         </div>
 
-        <!-- แผนที่ภาคเหนือ + หมุดปัก 9 จังหวัด -->
-        <div class="relative w-full rounded-2xl border-2 border-purple-300 overflow-hidden mb-3 select-none bg-gradient-to-b from-purple-950 via-slate-950 to-purple-950 shadow-inner">
+        <!-- ภาพแผนที่ภาคเหนือ (แสดงภาพอย่างเดียว กดขยายเต็มจอได้) -->
+        <div class="relative w-full rounded-2xl border-2 border-purple-300 overflow-hidden mb-4 select-none bg-gradient-to-b from-purple-950 via-slate-950 to-purple-950 shadow-inner">
           <img id="event-map-img" src="./map-phrae.png" alt="Digital Gastronomy Map แผนที่เส้นทางอาหารเหนือ" class="w-full h-auto block" onerror="handleMapImageError(this)" />
           <div id="map-img-error" class="hidden p-8 text-center text-white text-xs bg-slate-800 leading-relaxed">
             ⚠️ ยังไม่พบไฟล์ภาพแผนที่ <code>map-phrae.png</code> (หรือ <code>map-phrae.jpg</code>)
           </div>
-          <div id="map-pins-container" class="absolute inset-0"></div>
           <button type="button" onclick="openMapZoom()" class="absolute bottom-2 right-2 bg-black/75 hover:bg-black text-white text-[11px] px-2.5 py-1 rounded-lg backdrop-blur flex items-center gap-1 shadow border border-white/25">
             🔍 ขยายแผนที่
           </button>
         </div>
 
-        <!-- กล่องแสดงข้อมูลจังหวัดที่เลือก -->
-        <div id="zone-detail-card" class="p-4 bg-purple-50/70 border border-purple-200 rounded-xl mb-4">
-          <p class="text-xs sm:text-sm text-purple-900 text-center">
-            👆 แตะที่ <strong>หมุดบนแผนที่</strong> หรือเลือกจังหวัดจาก <strong>4 เส้นทางด้านล่าง</strong> เพื่อดูแหล่งผลิตวัตถุดิบและกดเช็กอิน
-          </p>
+        <!-- รายการปุ่มข้อความเลือกจังหวัด แบ่งตาม 4 เส้นทาง -->
+        <div class="space-y-3 mb-4">
+          <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider">👇 กดเลือกจังหวัดที่ต้องการสำรวจ (แบ่งตาม 4 เส้นทางเชฟบุ๊ค)</h3>
+          <div id="route-groups-container" class="space-y-2.5"></div>
         </div>
 
-        <!-- รายการจังหวัดแยกตาม 4 เส้นทาง -->
-        <div class="space-y-3">
-          <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider">เส้นทางและจุดปักหมุดทั้ง 4 เส้นทาง (เชื่อมโยงวัตถุดิบเชฟบุ๊ค)</h3>
-          <div id="route-groups-container" class="space-y-2.5"></div>
+        <!-- กล่องแสดงข้อมูลจังหวัดที่กดเลือก + ปุ่มเช็กอิน -->
+        <div id="zone-detail-card" class="p-4 bg-purple-50/70 border border-purple-200 rounded-xl">
+          <p class="text-xs sm:text-sm text-purple-900 text-center">
+            👆 กดเลือกชื่อจังหวัดด้านบน เพื่อดูแหล่งวัตถุดิบ อาหารพื้นถิ่น และกดเช็กอินครับ
+          </p>
         </div>
       </section>
 
@@ -403,41 +396,35 @@
       {
         routeId: "r1",
         title: "เส้นทางที่ ๑ : เส้นทางเครื่องเทศล้านนาและวิถีเมืองเก่า",
-        provincesText: "จ.แพร่ – จ.น่าน",
         dotColor: "bg-blue-600",
         badgeClass: "bg-blue-50 text-blue-800 border-blue-200"
       },
       {
         routeId: "r2",
         title: "เส้นทางที่ ๒ : เส้นทางตำรับล้านนาโบราณและผลผลิตโครงการหลวง",
-        provincesText: "จ.เชียงใหม่ – จ.ลำพูน – จ.ลำปาง",
         dotColor: "bg-amber-500",
         badgeClass: "bg-amber-50 text-amber-800 border-amber-200"
       },
       {
         routeId: "r3",
         title: "เส้นทางที่ ๓ : เส้นทางชา กาแฟ และอาหารถิ่นชาติพันธุ์",
-        provincesText: "จ.เชียงราย – จ.พะเยา – จ.แม่ฮ่องสอน",
         dotColor: "bg-purple-600",
         badgeClass: "bg-purple-50 text-purple-800 border-purple-200"
       },
       {
         routeId: "r4",
         title: "เส้นทางที่ ๔ : เส้นทางผลไม้ GI และอาหารถิ่นเมืองลับแล",
-        provincesText: "จ.อุตรดิตถ์",
         dotColor: "bg-emerald-600",
         badgeClass: "bg-emerald-50 text-emerald-800 border-emerald-200"
       }
     ];
 
-    // พิกัดหมุดทั้ง 9 จังหวัดตรงตามภาพแผนที่ภาคเหนือ (x, y เป็น %)
+    // ข้อมูลวัตถุดิบทั้ง 9 จังหวัด (กดเลือกจากข้อความได้เลย)
     const MAP_ZONES = [
       {
         id: "จ.แพร่",
         routeId: "r1",
         name: "จ.แพร่ (พื้นที่จัดงานหลัก)",
-        x: 51.7, y: 52.2,
-        pinColor: "bg-purple-700",
         highlights: [
           "แหล่งปลูก มะแขว่น อ.สอง เครื่องเทศเอกลักษณ์ล้านนา",
           "ชุมชนผลิต ข้าวแต๋นน้ำแตงโม",
@@ -449,8 +436,6 @@
         id: "จ.น่าน",
         routeId: "r1",
         name: "จ.น่าน",
-        x: 76.2, y: 40.5,
-        pinColor: "bg-blue-600",
         highlights: [
           "แหล่งผลิต เกลือสินเธาว์ภูเขา อ.บ่อเกลือ",
           "ส้มสีทองน่าน ผลไม้ขึ้นชื่อประจำถิ่น",
@@ -462,8 +447,6 @@
         id: "จ.เชียงใหม่",
         routeId: "r2",
         name: "จ.เชียงใหม่",
-        x: 40.5, y: 19.5,
-        pinColor: "bg-amber-600",
         highlights: [
           "ต้นตำรับ ข้าวซอย และ ไส้อั่ว ล้านนา",
           "แหล่งผลิตวัตถุดิบเกษตรอินทรีย์โครงการหลวง (มะเขือเทศราชินี ผักเมืองหนาว)"
@@ -474,8 +457,6 @@
         id: "จ.ลำพูน",
         routeId: "r2",
         name: "จ.ลำพูน",
-        x: 31.5, y: 48.2,
-        pinColor: "bg-amber-600",
         highlights: [
           "แหล่งผลิต ลำไยสีทอง สินค้าสิ่งบ่งชี้ทางภูมิศาสตร์ (GI)",
           "สำรับอาหารพื้นเมืองล้านนา"
@@ -486,8 +467,6 @@
         id: "จ.ลำปาง",
         routeId: "r2",
         name: "จ.ลำปาง",
-        x: 53.2, y: 28.0,
-        pinColor: "bg-amber-600",
         highlights: [
           "ชุมชนผลิต ข้าวแต๋น กรอบอร่อย",
           "หัตถกรรม ชามตราไก่ เอกลักษณ์คู่สำรับอาหารเหนือ"
@@ -498,8 +477,6 @@
         id: "จ.เชียงราย",
         routeId: "r3",
         name: "จ.เชียงราย",
-        x: 57.0, y: 7.5,
-        pinColor: "bg-purple-600",
         highlights: [
           "แหล่งปลูก ชาอัสสัม ดอยแม่สลอง",
           "สับปะรดภูแล ผลไม้หวานกรอบขึ้นชื่อ"
@@ -510,8 +487,6 @@
         id: "จ.พะเยา",
         routeId: "r3",
         name: "จ.พะเยา",
-        x: 73.0, y: 22.0,
-        pinColor: "bg-purple-600",
         highlights: [
           "ชุมชนประมงพื้นบ้าน ปลาส้มกว๊านพะเยา สูตรดั้งเดิม"
         ],
@@ -521,8 +496,6 @@
         id: "จ.แม่ฮ่องสอน",
         routeId: "r3",
         name: "จ.แม่ฮ่องสอน",
-        x: 22.2, y: 31.0,
-        pinColor: "bg-purple-600",
         highlights: [
           "วัฒนธรรมอาหาร ไทใหญ่ อันเป็นเอกลักษณ์",
           "ภูมิปัญญาการแปรรูป ถั่วเน่าแผ่น วัตถุดิบชูรสพื้นถิ่น"
@@ -533,8 +506,6 @@
         id: "จ.อุตรดิตถ์",
         routeId: "r4",
         name: "จ.อุตรดิตถ์",
-        x: 64.8, y: 71.0,
-        pinColor: "bg-emerald-600",
         highlights: [
           "แหล่งปลูก ทุเรียนหลง-หลินลับแล (ผลไม้ GI เมืองลับแล)",
           "อาหารพื้นบ้าน ข้าวพันผัก เมนูสุขภาพคู่เมือง"
@@ -726,7 +697,7 @@
       document.getElementById("ui-hashtags").textContent = CONFIG.hashtags;
       document.getElementById("ui-map-target").textContent = CONFIG.minMapZonesToPass;
 
-      renderMapPins();
+      renderRouteButtons();
       renderQuizQuestions();
 
       const savedPhone = localStorage.getItem(CURRENT_USER_KEY);
@@ -816,7 +787,7 @@
 
       const exploredCount = currentUser ? (currentUser.exploredZones || []).length : 0;
       document.getElementById("ui-map-count").textContent = `${exploredCount}/${CONFIG.minMapZonesToPass} จังหวัด`;
-      renderMapPins();
+      renderRouteButtons();
 
       if (currentUser && currentUser.quizPassed) {
         document.getElementById("quiz-form").classList.add("hidden");
@@ -919,32 +890,11 @@
       switchTab(2);
     }
 
-    // แสดงหมุดกดทับลงบนหมุดแดงทั้ง 9 จังหวัด และรายการ 4 เส้นทางด้านล่าง
-    function renderMapPins() {
-      const container = document.getElementById("map-pins-container");
+    // แสดงปุ่มชื่อจังหวัดแบ่งตาม 4 เส้นทาง (กดตรงข้อความได้เลย)
+    function renderRouteButtons() {
       const routesContainer = document.getElementById("route-groups-container");
       const explored = currentUser ? (currentUser.exploredZones || []) : [];
 
-      container.innerHTML = "";
-
-      MAP_ZONES.forEach(zone => {
-        const isChecked = explored.includes(zone.id);
-        const isSelected = activeZoneId === zone.id;
-
-        const pin = document.createElement("button");
-        pin.type = "button";
-        pin.style.left = `${zone.x}%`;
-        pin.style.top = `${zone.y}%`;
-        pin.style.transform = "translate(-50%, -50%)";
-        pin.title = zone.name;
-        const sizeClass = zone.id === "จ.แพร่" ? "w-8 h-8 sm:w-9 sm:h-9" : "w-6 h-6 sm:w-7 sm:h-7";
-        pin.className = `absolute ${sizeClass} rounded-full ${isChecked ? 'bg-emerald-500/95 border-white' : (isSelected ? 'bg-amber-400/80 border-white ring-4 ring-amber-300' : 'bg-white/10 hover:bg-amber-400/40 border-amber-300/90')} text-white text-xs font-bold shadow-lg border-2 flex items-center justify-center transition hover:scale-110 ${!isChecked && !isSelected ? 'pin-pulse' : ''}`;
-        pin.innerHTML = isChecked ? "✓" : "";
-        pin.onclick = () => selectMapZone(zone.id);
-        container.appendChild(pin);
-      });
-
-      // สร้างรายการจังหวัดแบ่งตาม 4 เส้นทาง
       routesContainer.innerHTML = ROUTES_META.map(route => {
         const zonesInRoute = MAP_ZONES.filter(z => z.routeId === route.routeId);
         return `
@@ -953,16 +903,16 @@
               <span class="w-2.5 h-2.5 rounded-full ${route.dotColor} shrink-0"></span>
               <div class="text-xs font-bold text-slate-800 leading-snug">${route.title}</div>
             </div>
-            <div class="flex flex-wrap gap-1.5">
+            <div class="flex flex-wrap gap-2">
               ${zonesInRoute.map(z => {
                 const isChecked = explored.includes(z.id);
                 const isSelected = activeZoneId === z.id;
                 return `
                   <button type="button" onclick="selectMapZone('${z.id}')"
-                    class="px-2.5 py-1.5 rounded-lg border text-xs font-medium transition flex items-center gap-1 ${
+                    class="px-3 py-2 rounded-xl border text-xs sm:text-sm font-medium transition flex items-center gap-1.5 ${
                       isChecked
                         ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
-                        : (isSelected ? 'bg-purple-700 border-purple-700 text-white shadow-sm' : 'bg-white hover:bg-purple-50 border-slate-200 text-slate-700')
+                        : (isSelected ? 'bg-purple-700 border-purple-700 text-white shadow-sm' : 'bg-white hover:bg-purple-50 border-slate-200 text-slate-700 shadow-sm')
                     }">
                     <span>${z.id}</span>
                     <span>${isChecked ? '✅' : '📍'}</span>
@@ -977,7 +927,7 @@
 
     function selectMapZone(zoneId) {
       activeZoneId = zoneId;
-      renderMapPins();
+      renderRouteButtons();
 
       const zone = MAP_ZONES.find(z => z.id === zoneId);
       if (!zone) return;
@@ -1016,6 +966,7 @@
           </button>
         `}
       `;
+      card.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
 
     async function checkInZone(zoneId) {
