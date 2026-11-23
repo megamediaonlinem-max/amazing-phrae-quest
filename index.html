@@ -560,7 +560,6 @@
       hashtags: "#AmazingPhrae #365วันมหัศจรรย์เมืองแพร่ #PhraeGastronomy",
       minMapZonesToPass: 2,
       minQuizScoreToPass: 2,
-      staffPin: "1234",
       ebookUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
       googleScriptUrl: "https://script.google.com/macros/s/AKfycbx1FnfK_DVkPxPs3AGzcSLLvZvdr1MxHcXeK4edzagSuOBVlG9QutfVTOCI2l0l3rfO/exec"
     };
@@ -939,18 +938,12 @@ function handleEbookImageError(img) {
       const email = document.getElementById("reg-email").value.trim();
       const group = document.getElementById("reg-group").value;
 
-      let existing = getLocalDB().find(u => u.phone === phone);
-      if (!existing && CONFIG.googleScriptUrl) {
-        try {
-          const res = await fetch(`${CONFIG.googleScriptUrl}?action=user&phone=${encodeURIComponent(phone)}&t=${Date.now()}`);
-          const json = await res.json();
-          if (json.user) existing = json.user;
-        } catch (err) {}
-      }
+      // ตรวจสอบเฉพาะข้อมูลในเครื่องของตัวเองเท่านั้น (ไม่ดึงข้อมูลส่วนตัวจาก Server)
+      const existing = getLocalDB().find(u => u.phone === phone);
 
       if (existing) {
         await persistUser(existing);
-        alert(`พบข้อมูลเดิมของคุณ ${existing.name} ระบบดึงความคืบหน้าเดิมกลับมาให้แล้วครับ`);
+        alert(`ยินดีต้อนรับกลับมาครับ คุณ ${existing.name}`);
       } else {
         const newUser = {
           id: "PHR-" + Date.now().toString(36).toUpperCase(),
@@ -1190,16 +1183,78 @@ function handleEbookImageError(img) {
       }
     }
 
-    function openAdminModal() {
-      const pin = prompt("กรุณากรอกรหัส PIN ผู้ดูแลระบบ (ค่าเริ่มต้น: 1234)");
-      if (pin !== CONFIG.staffPin) {
-        if (pin !== null) alert("รหัสผ่านไม่ถูกต้อง");
+    let sessionAdminPin = "";
+
+    async function openAdminModal() {
+      const pin = prompt("กรุณากรอกรหัส PIN ผู้ดูแลระบบ");
+      if (pin === null || !pin.trim()) return;
+      sessionAdminPin = pin.trim();
+
+      if (!CONFIG.googleScriptUrl) {
+        if (sessionAdminPin !== "1234") {
+          alert("รหัสผ่านไม่ถูกต้อง");
+          return;
+        }
+        document.getElementById("admin-modal").classList.remove("hidden");
+        fetchAdminLiveData();
         return;
       }
-      document.getElementById("admin-modal").classList.remove("hidden");
-      fetchAdminLiveData();
+
+      const ok = await fetchAdminLiveData(false);
+      if (ok) {
+        document.getElementById("admin-modal").classList.remove("hidden");
+      }
     }
 
+    function closeAdminModal() {
+      sessionAdminPin = "";
+      document.getElementById("admin-modal").classList.add("hidden");
+    }
+
+    async function fetchAdminLiveData(silent = false) {
+      const statusBadge = document.getElementById("adm-sync-status");
+      if (!silent) statusBadge.textContent = "กำลังตรวจสอบสิทธิ์...";
+
+      if (!CONFIG.googleScriptUrl) {
+        adminLiveList = getLocalDB();
+        statusBadge.textContent = "LocalStorage";
+        updateAdminKPIs(adminLiveList);
+        renderAdminTable();
+        return true;
+      }
+
+      try {
+        // ส่ง PIN ไปตรวจสอบฝั่ง Google Apps Script ผ่าน POST
+        const res = await fetch(CONFIG.googleScriptUrl, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ action: "admin_list", pin: sessionAdminPin })
+        });
+        const json = await res.json();
+
+        if (json.status === "unauthorized") {
+          sessionAdminPin = "";
+          document.getElementById("admin-modal").classList.add("hidden");
+          if (!silent) alert("❌ รหัส PIN ไม่ถูกต้อง");
+          return false;
+        }
+
+        if (json.status === "ok") {
+          adminLiveList = json.participants || [];
+          statusBadge.textContent = "🟢 Live (Google Sheet)";
+          statusBadge.className = "text-[11px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-medium";
+          updateAdminKPIs(adminLiveList);
+          renderAdminTable();
+          document.getElementById("ui-total-participants").textContent = adminLiveList.length.toLocaleString();
+          return true;
+        }
+      } catch (err) {
+        statusBadge.textContent = "⚠️ เชื่อมต่อไม่ได้";
+        statusBadge.className = "text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-medium";
+        return false;
+      }
+      return false;
+    }
     function closeAdminModal() {
       document.getElementById("admin-modal").classList.add("hidden");
     }
